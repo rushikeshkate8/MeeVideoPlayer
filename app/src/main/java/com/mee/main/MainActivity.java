@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //            public void onResult(VideoResult result) {
 //
 //                Toast.makeText( MainActivity.this , result.getItems().get( 0 ).getPath() , Toast.LENGTH_SHORT ).show();
-//                Intent intent = new Intent( MainActivity.this , PlayerActivity.class );
-//                Uri uri = Uri.fromFile( new File( result.getItems().get( 6 ).getPath() ) );
-//                intent.setDataAndType( uri , "video/*" );
-//                startActivity( intent );
+
 //
 //
 //            }
