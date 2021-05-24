@@ -244,7 +244,7 @@ class Utils {
 
     public static void log(final String text) {
         if (BuildConfig.DEBUG) {
-            Log.d("JustPlayer", text);
+            Log.d("MeePlayer", text);
         }
     }
 

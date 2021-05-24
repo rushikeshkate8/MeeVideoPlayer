@@ -4,14 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="videoItem"
+            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginVertical="14dp">
+        android:paddingStart="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="6dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/video_item_card_view"
@@ -19,14 +22,12 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:layout_alignParentStart="true"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="4dp"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
             app:cardMaxElevation="10dp"
-            app:cardPreventCornerOverlap="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardPreventCornerOverlap="true">
             <!--            app:cardUseCompatPadding="true"-->
 
             <ImageView
@@ -39,6 +40,7 @@
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
+                android:id="@+id/video_duration_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
@@ -46,38 +48,35 @@
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/video_item_duration_rounded_background"
                 android:paddingHorizontal="4dp"
-                android:text="04:10"
+                android:text="@{String.valueOf(videoItem.duration)}"
                 android:textColor="@color/grey_50"
                 android:textSize="10sp" />
 
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:id="@+id/video_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:lineSpacingExtra="4dp"
             android:maxLines="2"
-            android:text="Video Title Will be shown here"
+            android:layout_toEndOf="@id/video_item_card_view"
+            android:layout_toStartOf="@id/more_menu_item_image_view"
+            android:text="@{videoItem.displayName}"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/video_item_card_view"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/video_item_card_view"
-            app:layout_constraintTop_toTopOf="@+id/video_item_card_view" />
+            tools:text="Title dddddddddddddddddddddd lllllllllllllllllllll eeeeeeeeeeeeeeeeeeeeee llllllllllllll dddddddddddddd"/>
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/more_menu_item_image_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginVertical="8dp"
             android:scaleType="centerInside"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentEnd="true"
             app:srcCompat="@drawable/ic_baseline_more_vert_24"
             app:tint="@color/more_icon_color" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>
