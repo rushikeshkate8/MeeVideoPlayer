@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="black">#FF000000</color>
+    <color name="text_color_primary_black">#DE000000</color>
+    <color name="black">#000000</color>
+    <color name="video_duratin_background_color">#50000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="exo_bottom_bar_background">#88000000</color>
     <color name="exo_black_opacity_30" tools:keep="@color/exo_black_opacity_30">#00000000</color>
@@ -9,4 +11,5 @@
     <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
+    <color name="grey_500">#7E7E7E</color>
 </resources>

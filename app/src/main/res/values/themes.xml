@@ -18,6 +18,7 @@
     <style name="Theme.Main" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/grey_50</item>
         <item name="android:statusBarColor">@color/grey_300</item>
+        <item name="android:textColor">@color/text_color_primary_black</item>
     </style>
 
     <style name="BottomNavigation">
