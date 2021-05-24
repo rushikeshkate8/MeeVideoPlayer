@@ -11,13 +11,13 @@ import java.util.List;
 
 public class VideosViewModel extends ViewModel {
     // TODO: Implement the ViewModel
-    private static MutableLiveData<List<VideoItem>> _videoItems = new MutableLiveData<>( Collections.emptyList());
-
-    public static LiveData<List<VideoItem>> getVideoItemsLiveData() {
-        return _videoItems;
-    }
-
-    public static void setVideoItems(List<VideoItem> videoItems) {
-        _videoItems.setValue( videoItems );
-    }
+//    private static MutableLiveData<List<VideoItem>> _videoItems = new MutableLiveData<>( Collections.emptyList());
+//
+//    public static LiveData<List<VideoItem>> getVideoItemsLiveData() {
+//        return _videoItems;
+//    }
+//
+//    public static void setVideoItems(List<VideoItem> videoItems) {
+//        _videoItems.setValue( videoItems );
+//    }
 }

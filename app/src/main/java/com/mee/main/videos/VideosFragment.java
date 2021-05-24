@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jiajunhui.xapp.medialoader.bean.VideoItem;
+import com.jiajunhui.xapp.medialoader.bean.VideoResult;
+import com.mee.main.MainActivityViewModel;
 import com.mee.player.R;
 import com.mee.player.databinding.VideosFragmentBinding;
 
@@ -38,12 +40,12 @@ public class VideosFragment extends Fragment {
         adapter = new VideosAdapter( new DiffCallback() );
         binding.videoItemsRecyclerView.setAdapter(adapter);
 
-        VideosViewModel.getVideoItemsLiveData().observe( getViewLifecycleOwner() , new Observer<List<VideoItem>>() {
+        MainActivityViewModel._videoResult.observe( getViewLifecycleOwner() , new Observer<VideoResult>() {
             @Override
-            public void onChanged(List<VideoItem> videoItems) {
-                adapter.submitList( videoItems );
+            public void onChanged(VideoResult videoResult) {
+                adapter.submitList( videoResult.getItems() );
             }
-        } );
+        });
 
         return binding.getRoot();
     }

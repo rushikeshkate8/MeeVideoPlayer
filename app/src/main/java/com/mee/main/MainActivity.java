@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaLoader.getLoader().loadVideos( this , new OnVideoLoaderCallBack() {
                     @Override
                     public void onResult(VideoResult result) {
-                        MainActivityViewModel.setVideoResult( result );
-                        VideosViewModel.setVideoItems( result.getItems() );
+                        MainActivityViewModel._videoResult.setValue( result );
                     }
                 } );
             } else {
@@ -120,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     MediaLoader.getLoader().loadVideos( this , new OnVideoLoaderCallBack() {
                         @Override
                         public void onResult(VideoResult result) {
-                            MainActivityViewModel.setVideoResult( result );
-                            VideosViewModel.setVideoItems( result.getItems() );
+                            MainActivityViewModel._videoResult.setValue( result );
                         }
                     } );
                 } else {
