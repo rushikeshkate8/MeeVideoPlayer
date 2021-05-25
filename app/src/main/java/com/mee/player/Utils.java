@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import androidx.databinding.library.BuildConfig;
+
 import com.google.android.exoplayer2.Format;
 
 import java.io.File;
