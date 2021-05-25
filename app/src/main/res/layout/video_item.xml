@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
+            android:textColor="@color/text_color_primary"
             android:lineSpacingExtra="4dp"
             android:maxLines="2"
             android:layout_toEndOf="@id/video_item_card_view"

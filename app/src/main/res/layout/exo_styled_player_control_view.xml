@@ -138,7 +138,8 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:indeterminateTint="@color/color_primary"/>
 
     <include layout="@layout/exo_styled_player_control_ffwd_button" />
 

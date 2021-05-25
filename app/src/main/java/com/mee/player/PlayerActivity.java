@@ -401,7 +401,7 @@ public class PlayerActivity extends Activity {
                     if (mPrefs.firstRun) {
                         TapTargetView.showFor(PlayerActivity.this,
                                 TapTarget.forView(buttonOpen, getString(R.string.onboarding_open_title), getString(R.string.onboarding_open_description))
-                                        .outerCircleColor(R.color.green)
+                                        .outerCircleColor(R.color.color_primary )
                                         .targetCircleColor(R.color.white)
                                         .titleTextSize(22)
                                         .titleTextColor(R.color.white)

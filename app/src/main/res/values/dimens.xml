@@ -5,4 +5,6 @@
     <dimen name="exo_settings_offset" tools:keep="@dimen/exo_settings_offset">30dp</dimen>
     <dimen name="exo_icon_size">90dp</dimen>
     <dimen name="controls_padding">170sp</dimen>
+
+    <dimen name="button_padding_vertical">10dp</dimen>
 </resources>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jiajunhui.xapp.medialoader.bean.VideoItem
+import com.karumi.dexter.Dexter
 import com.mee.main.MainActivity
 import com.mee.main.videos.VideosAdapter.VideoItemViewHolder
 import com.mee.player.databinding.VideoItemBinding

@@ -16,4 +16,11 @@
     <string name="error_files_missing">Files app is disabled or missing</string>
 
     <string name="subtitles_scope">To automatically load external subtitles, grant %s access to the topmost folder containing your videos (e.g. Movies).</string>
+
+    <string name="permission_dialog_message_deny">In order to play video, we need access to media files on your device.</string>
+    <string name="permission_dialog_message_permanant_deny">In order to play video, we need access to media files on your device. Go to settings to enable the permission.</string>
+    <string name="perimission_dialog_title">Need Permissions</string>
+    <string name="permission_dialog_positive_button_text_deny">Allow Access</string>
+    <string name="permission_dialog_positive_button_text_permanant_deny">OPEN SETTINGS</string>
+    <string name="permission_dialog_negative_button">Exit App</string>
 </resources>

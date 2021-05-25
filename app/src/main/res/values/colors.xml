@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="text_color_primary_black">#DE000000</color>
+    <color name="text_color_primary">#DE000000</color>
     <color name="black">#000000</color>
     <color name="video_duratin_background_color">#99000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="exo_bottom_bar_background">#88000000</color>
     <color name="exo_black_opacity_30" tools:keep="@color/exo_black_opacity_30">#00000000</color>
-    <color name="green">#3DDC84</color>
+    <color name="color_primary">@color/violet</color>
     <color name="royal_blue">#3930d8</color>
     <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
@@ -15,5 +15,39 @@
     <color name="grey_600">#616161</color>
     <color name="grey_800">#424242</color>
     <color name="more_icon_color">@color/grey_500</color>
+    <color name="violet">#7C4CFE</color>
+
+    <color name="alert_dialog_title">@color/black</color>
+    <color name="alert_dialog_message">#8A000000</color>
+
+
+
+
+<!--    RetroMusic Colors-->
+<!--    <color name="window_color">@color/md_white_1000</color>-->
+<!--    <color name="window_color_light">@color/md_white_1000</color>-->
+    <color name="window_color_dark">@android:color/black</color>
+
+    <color name="twenty_percent_black_overlay">#34000000</color>
+    <color name="app_shortcut_default_foreground">#607d8b</color>
+    <color name="app_shortcut_default_background">#f5f5f5</color>
+    <color name="md_indigo_A400">#3D5AFE</color>
+    <color name="dark_color">#202124</color>
+    <color name="black_color">#202124</color>
+
+    <color name="darkColorPrimary">#202124</color>
+    <color name="darkColorSurface">#202124</color>
+
+    <color name="blackColorSurface">#000000</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent">#20000000</color>
+    <!-- card colors -->
+    <color name="card_background">#ffffff</color>
+    <color name="card_shadow_1">#d4d4d4</color>
+    <color name="card_shadow_2">#dddddd</color>
+
+    <color name="progress_gray">#FFD8D8D8</color>
+    <color name="default_blue_light">#ff33b5e5</color>
 
 </resources>

@@ -6,11 +6,11 @@
         android:id="@+id/folders_menu_item"
         android:title="Folders"
         android:icon="@drawable/ic_baseline_folder_24"
-        app:cnb_iconColor="@color/royal_blue"
+        app:cnb_iconColor="@color/violet"
         />
     <item
         android:id="@+id/videos_menu_item"
         android:title="Videos"
         android:icon="@drawable/ic_baseline_video_24"
-        app:cnb_iconColor="@color/royal_blue"/>
+        app:cnb_iconColor="@color/violet"/>
 </menu>
