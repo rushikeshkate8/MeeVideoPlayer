@@ -13,7 +13,7 @@ import com.mee.main.MainActivity
 import com.mee.main.videos.VideosAdapter.VideoItemViewHolder
 import com.mee.player.databinding.VideoItemBinding
 
-class VideosAdapter(val clickListener: OnClickListener) : ListAdapter<VideoItem, VideoItemViewHolder>(DiffCallback()) {
+class VideosAdapter(val videoItemClickListener: OnClickListener, val moreImageViewClickListener: OnClickListener) : ListAdapter<VideoItem, VideoItemViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemViewHolder {
         return VideoItemViewHolder(VideoItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
@@ -21,7 +21,10 @@ class VideosAdapter(val clickListener: OnClickListener) : ListAdapter<VideoItem,
     override fun onBindViewHolder(holder: VideoItemViewHolder, position: Int) {
         holder.binding.videoItem = getItem(position)
         holder.binding.videoItemRelativeLayout.setOnClickListener {
-            clickListener.OnClick(getItem(position))
+            videoItemClickListener.OnClick(getItem(position))
+        }
+        holder.binding.moreMenuItemImageView.setOnClickListener {
+                moreImageViewClickListener.OnClick(getItem(position))
         }
     }
 
