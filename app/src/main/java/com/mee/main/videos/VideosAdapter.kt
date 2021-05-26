@@ -1,15 +1,12 @@
 package com.mee.main.videos
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jiajunhui.xapp.medialoader.bean.VideoItem
-import com.karumi.dexter.Dexter
-import com.mee.main.MainActivity
 import com.mee.main.videos.VideosAdapter.VideoItemViewHolder
 import com.mee.player.databinding.VideoItemBinding
 
@@ -32,7 +29,7 @@ class VideosAdapter(val videoItemClickListener: OnClickListener, val moreImageVi
 
     class DiffCallback : DiffUtil.ItemCallback<VideoItem>() {
         override fun areItemsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean {
-            return oldItem.path == newItem.path
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")

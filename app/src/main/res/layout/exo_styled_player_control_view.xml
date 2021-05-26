@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layoutDirection="ltr" />
-
+        android:layoutDirection="ltr"></FrameLayout>
 
     <FrameLayout
         android:id="@+id/exo_bottom_bar"
@@ -51,38 +50,31 @@
 
             <ImageButton
                 android:id="@+id/exo_vr"
-                style="@style/ExoStyledControls.Button.Bottom.VR"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.VR" />
 
             <ImageButton
                 android:id="@+id/exo_shuffle"
-                style="@style/ExoStyledControls.Button.Bottom.Shuffle"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.Shuffle" />
 
             <ImageButton
                 android:id="@+id/exo_repeat_toggle"
-                style="@style/ExoStyledControls.Button.Bottom.RepeatToggle"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.RepeatToggle" />
 
             <ImageButton
                 android:id="@+id/exo_subtitle"
-                style="@style/ExoStyledControls.Button.Bottom.CC"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.CC" />
 
             <ImageButton
                 android:id="@+id/exo_settings"
-                style="@style/ExoStyledControls.Button.Bottom.Settings"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.Settings" />
 
             <ImageButton
                 android:id="@+id/exo_fullscreen"
-                style="@style/ExoStyledControls.Button.Bottom.FullScreen"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.FullScreen" />
 
             <ImageButton
                 android:id="@+id/exo_overflow_show"
-                style="@style/ExoStyledControls.Button.Bottom.OverflowShow"
-                android:background="@drawable/ripple" />
+                style="@style/ExoStyledControls.Button.Bottom.OverflowShow" />
 
         </LinearLayout>
 
@@ -101,8 +93,7 @@
 
                 <ImageButton
                     android:id="@+id/exo_overflow_hide"
-                    style="@style/ExoStyledControls.Button.Bottom.OverflowHide"
-                    android:background="@drawable/ripple" />
+                    style="@style/ExoStyledControls.Button.Bottom.OverflowHide" />
 
             </LinearLayout>
 
@@ -118,8 +109,6 @@
         android:layout_marginBottom="@dimen/exo_styled_progress_margin_bottom"
         app:bar_gravity="bottom"
         app:bar_height="@dimen/exo_styled_progress_bar_height"
-        app:played_color="@color/color_primary"
-        app:scrubber_color="@color/color_primary"
         app:scrubber_dragged_size="@dimen/exo_styled_progress_dragged_thumb_size"
         app:scrubber_enabled_size="@dimen/exo_styled_progress_enabled_thumb_size"
         app:touch_target_height="@dimen/exo_styled_progress_touch_target_height" />
@@ -136,8 +125,7 @@
 
         <ImageButton
             android:id="@+id/exo_minimal_fullscreen"
-            style="@style/ExoStyledControls.Button.Bottom.FullScreen"
-            android:background="@drawable/ripple" />
+            style="@style/ExoStyledControls.Button.Bottom.FullScreen" />
 
     </LinearLayout>
 
@@ -157,30 +145,26 @@
 
         <ImageButton
             android:id="@+id/exo_prev"
-            style="@style/ExoStyledControls.Button.Center.Previous"
-            android:background="@drawable/ripple" />
+            style="@style/ExoStyledControls.Button.Center.Previous" />
 
         <include layout="@layout/exo_styled_player_control_rewind_button" />
 
         <ImageButton
             android:id="@+id/exo_play_pause"
-            style="@style/ExoStyledControls.Button.Center.PlayPause"
-            android:background="@drawable/ripple" />
+            style="@style/ExoStyledControls.Button.Center.PlayPause" />
 
         <ProgressBar
             android:id="@+id/loading"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/color_primary"
             android:visibility="gone" />
 
         <include layout="@layout/exo_styled_player_control_ffwd_button" />
 
         <ImageButton
             android:id="@+id/exo_next"
-            style="@style/ExoStyledControls.Button.Center.Next"
-            android:background="@drawable/ripple" />
+            style="@style/ExoStyledControls.Button.Center.Next" />
 
         <View
             android:id="@+id/dummy"

@@ -6,8 +6,10 @@
     tools:context="com.mee.main.folders.FoldersFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Folders Fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Folders Fragment"
+        android:layout_gravity="center"
+        android:textColor="@color/text_color_primary"/>
 
 </FrameLayout>
