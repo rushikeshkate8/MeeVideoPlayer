@@ -11,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jiajunhui.xapp.medialoader.bean.VideoItem
 import com.mee.main.MainActivityViewModel
+import com.mee.main.mainUtils.VideoItemModelBottomSheet
 import com.mee.player.PlayerActivity
 import com.mee.player.databinding.VideosFragmentBinding
 import java.io.File
@@ -61,58 +63,16 @@ class VideosFragment : Fragment() {
             startActivity(intent)
         }
     }
+
     fun getMoreImageViewClickListener(): VideosAdapter.OnClickListener {
-        return  VideosAdapter.OnClickListener {
-//            val intent = Intent(Intent.ACTION_SEND)
-//            intent.type = "video/*"
-//            intent.putExtra(Intent.EXTRA_STREAM, it.path.toUri())
-//            ActivityCompat.startActivity(requireContext(),  intent, null)
-
-            val contentResolver = activity?.contentResolver
-            if (contentResolver != null) {
-                contentResolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, MediaStore.Video.VideoColumns.DATA + "=?",
-                    arrayOf(it.path))
-            }
-            //requestDeletePermission(listOf(it.path.toUri()))
-            Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-    private fun requestDeletePermission(uriList: List<Uri>) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val pi = activity?.let { MediaStore.createDeleteRequest(it.getContentResolver(), uriList) }
-            try {
-                if (pi != null) {
-                    startIntentSenderForResult(
-                        pi.intentSender, 101, null, 0, 0,
-                        0, null)
-                }
-            } catch (e: SendIntentException) {
+        return VideosAdapter.OnClickListener {
+            val modalBottomSheet = VideoItemModelBottomSheet(it)
+            fragmentManager?.let { it1 ->
+                modalBottomSheet.show(
+                    it1,
+                    VideoItemModelBottomSheet.TAG
+                )
             }
         }
     }
-
-    fun deleteFileUsingDisplayName(videoItem: VideoItem): Boolean {
-        val uri = videoItem.path.toUri()
-        if (uri != null) {
-            val resolver: ContentResolver? = context?.getContentResolver()
-            val selectionArgsPdf = arrayOf(videoItem.path)
-            try {
-                if (resolver != null) {
-                    resolver.delete(
-                        uri,
-                        MediaStore.Files.FileColumns.DISPLAY_NAME + "=?",
-                        selectionArgsPdf
-                    )
-                }
-                return true
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-                // show some alert message
-            }
-        }
-        return false
-    }
-    }
+}

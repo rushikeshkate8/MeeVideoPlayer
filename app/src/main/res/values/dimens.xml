@@ -7,4 +7,12 @@
     <dimen name="controls_padding">170sp</dimen>
 
     <dimen name="button_padding_vertical">10dp</dimen>
+
+    <dimen name="video_item_duration_text_size">10sp</dimen>
+    <dimen name="video_item_title_text_size">14sp</dimen>
+    <dimen name="bottom_sheet_text_size">16sp</dimen>
+
+    <dimen name="padding_horizontal">16dp</dimen>
+    <dimen name="vertical_padding_bottom_sheet_items">18dp</dimen>
+    <dimen name="horizontal_margin_between_items">16dp</dimen>
 </resources>

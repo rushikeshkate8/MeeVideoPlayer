@@ -23,4 +23,6 @@
     <string name="permission_dialog_positive_button_text_deny">Allow Access</string>
     <string name="permission_dialog_positive_button_text_permanant_deny">OPEN SETTINGS</string>
     <string name="permission_dialog_negative_button">Exit App</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
 </resources>
