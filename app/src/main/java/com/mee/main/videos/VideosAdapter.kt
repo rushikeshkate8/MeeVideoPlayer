@@ -1,6 +1,7 @@
 package com.mee.main.videos
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +11,10 @@ import com.jiajunhui.xapp.medialoader.bean.VideoItem
 import com.mee.main.videos.VideosAdapter.VideoItemViewHolder
 import com.mee.player.databinding.VideoItemBinding
 
-class VideosAdapter(val videoItemClickListener: OnClickListener, val moreImageViewClickListener: OnClickListener) : ListAdapter<VideoItem, VideoItemViewHolder>(DiffCallback()) {
+class VideosAdapter(
+    val videoItemClickListener: OnClickListener,
+    val moreImageViewClickListener: OnClickListener
+) : ListAdapter<VideoItem, VideoItemViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemViewHolder {
         return VideoItemViewHolder(VideoItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
@@ -18,10 +22,10 @@ class VideosAdapter(val videoItemClickListener: OnClickListener, val moreImageVi
     override fun onBindViewHolder(holder: VideoItemViewHolder, position: Int) {
         holder.binding.videoItem = getItem(position)
         holder.binding.videoItemRelativeLayout.setOnClickListener {
-            videoItemClickListener.OnClick(getItem(position))
+            videoItemClickListener.OnClick(position)
         }
         holder.binding.moreMenuItemImageView.setOnClickListener {
-                moreImageViewClickListener.OnClick(getItem(position))
+            moreImageViewClickListener.OnClick(position)
         }
     }
 
@@ -34,12 +38,12 @@ class VideosAdapter(val videoItemClickListener: OnClickListener, val moreImageVi
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean {
-            return oldItem === newItem
+            return oldItem == newItem
         }
     }
 
-    class OnClickListener(val clickListener: (videoItem: VideoItem) -> Unit) {
-        fun OnClick(videoItem: VideoItem) = clickListener(videoItem)
+    class OnClickListener(val clickListener: (position: Int) -> Unit) {
+        fun OnClick(position: Int) = clickListener(position)
     }
 }
 

@@ -3,15 +3,10 @@ package com.mee.main
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.jiajunhui.xapp.medialoader.MediaLoader
@@ -51,17 +46,12 @@ class MainActivity : AppCompatActivity() {
                 ).navigate(R.id.videos_Fragment)
             }
         }
-//        binding!!.bottomNavBar.setOnItemSelectedListener {
-//            override fun onItemSelected(i: Int) {
-//
-//            }
-//        })
     }
 
     fun updateMediaDatabase() {
         MediaLoader.getLoader().loadVideos(this, object : OnVideoLoaderCallBack() {
             override fun onResult(result: VideoResult) {
-                MainActivityViewModel._videoResult.value = result
+                MainActivityViewModel.videoResult.value = result
             }
         })
     }

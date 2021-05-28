@@ -1,7 +1,6 @@
 package com.mee.main.mainUtils
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -9,20 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jiajunhui.xapp.medialoader.MediaLoader
 import com.jiajunhui.xapp.medialoader.bean.VideoItem
+import com.jiajunhui.xapp.medialoader.bean.VideoResult
+import com.jiajunhui.xapp.medialoader.callback.OnVideoLoaderCallBack
+import com.mee.main.MainActivityViewModel
 import com.mee.player.R
 import com.mee.player.databinding.VideoItemMoreBottomSheetBinding
 
-class VideoItemModelBottomSheet(val videoItem: VideoItem) : BottomSheetDialogFragment() {
+class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment() {
     lateinit var binding: VideoItemMoreBottomSheetBinding
+    lateinit var videoItem: VideoItem
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        videoItem = MainActivityViewModel.videoResult.value?.items?.get(position)!!
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
         binding.videoItem = videoItem
         setUpOnClickListeners()
@@ -42,7 +45,7 @@ class VideoItemModelBottomSheet(val videoItem: VideoItem) : BottomSheetDialogFra
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "video/*"
             intent.putExtra(Intent.EXTRA_STREAM, videoItem.path.toUri())
-            ActivityCompat.startActivity(requireContext(),  intent, null)
+            ActivityCompat.startActivity(requireContext(), intent, null)
             dismiss()
         }
 
@@ -50,8 +53,15 @@ class VideoItemModelBottomSheet(val videoItem: VideoItem) : BottomSheetDialogFra
             val contentResolver = activity?.contentResolver
             if (contentResolver != null) {
                 contentResolver.delete(
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI, MediaStore.Video.VideoColumns.DATA + "=?",
-                    arrayOf(videoItem.path))
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                    MediaStore.Video.VideoColumns.DATA + "=?",
+                    arrayOf(videoItem.path)
+                )
+                MediaLoader.getLoader().loadVideos(activity, object : OnVideoLoaderCallBack() {
+                    override fun onResult(result: VideoResult) {
+                        MainActivityViewModel.videoResult.value = result
+                    }
+                })
             }
             dismiss()
         }

@@ -6,6 +6,6 @@ import com.jiajunhui.xapp.medialoader.bean.VideoResult
 
 class MainActivityViewModel : ViewModel() {
     companion object {
-        var _videoResult = MutableLiveData(VideoResult())
+        var videoResult = MutableLiveData(VideoResult())
     }
 }
