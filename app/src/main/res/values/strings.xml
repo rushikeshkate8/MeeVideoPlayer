@@ -23,6 +23,11 @@
     <string name="permission_dialog_positive_button_text_deny">Allow Access</string>
     <string name="permission_dialog_positive_button_text_permanant_deny">OPEN SETTINGS</string>
     <string name="permission_dialog_negative_button">Exit App</string>
+
     <string name="share">Share</string>
     <string name="delete">Delete</string>
+    <string name="folders">Folders</string>
+    <string name="videos">Videos</string>
+
+    <string name="tap_again_to_exit_app">Tap again to exit app</string>
 </resources>

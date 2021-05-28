@@ -5,7 +5,10 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -39,13 +42,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.folders_menu_item -> Navigation.findNavController(
                     this@MainActivity,
                     R.id.nav_host_fragment
-                ).navigate(R.id.folders_fragment)
-                R.id.videos_menu_item -> Navigation.findNavController(
-                    this@MainActivity,
-                    R.id.nav_host_fragment
-                ).navigate(R.id.videos_Fragment)
+                ).apply { popBackStack() }.navigate(R.id.folders_fragment)
+                R.id.videos_menu_item -> {
+                    Navigation.findNavController(
+                        this@MainActivity,
+                        R.id.nav_host_fragment
+                    ).apply { popBackStack() }.navigate(R.id.videos_Fragment)
+                }
             }
+
         }
+
     }
 
     fun updateMediaDatabase() {
@@ -136,6 +143,16 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    override fun onBackPressed() {
+        if (viewModel?.isBackPressed!!)
+            super.onBackPressed()
+        else {
+            Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
+            viewModel!!.isBackPressed = true
+            Handler(Looper.getMainLooper()).postDelayed(
+                { viewModel!!.isBackPressed = false }, 2000)
+        }
+    }
 
     override fun onStart() {
         super.onStart()

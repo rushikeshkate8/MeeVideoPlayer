@@ -8,4 +8,5 @@ class MainActivityViewModel : ViewModel() {
     companion object {
         var videoResult = MutableLiveData(VideoResult())
     }
+    var isBackPressed: Boolean = false
 }
