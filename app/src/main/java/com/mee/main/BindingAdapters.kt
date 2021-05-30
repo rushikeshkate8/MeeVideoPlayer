@@ -1,11 +1,14 @@
 package com.mee.main
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import java.io.File
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 @BindingAdapter("imagePath")
@@ -40,4 +43,24 @@ fun bindVideoDisplayNameTextView(textView: TextView, videoDisplayName: String){
     } else {
          textView.text = videoDisplayName
     }
+}
+
+@BindingAdapter("videoDateModifiedInMilliSec")
+fun bindVideoDate(textView: TextView, dateLong: Long) {
+    val simpleDateFormat = SimpleDateFormat("HH:mm  MMM dd yyyy")
+    val time = dateLong * 1000L
+    val date = simpleDateFormat.format(time)
+
+    textView.setText(date)
+}
+
+@BindingAdapter("videoPath")
+fun bindVideoLocation(textView: TextView, path: String) {
+    val location = path.substring(0, path.lastIndexOf("/"))
+    textView.text = location
+}
+
+@BindingAdapter("videoSize")
+fun bindVideoSize(textView: TextView, size: Long) {
+    textView.text = android.text.format.Formatter.formatFileSize(textView.context, size)
 }

@@ -19,7 +19,7 @@
 
     <string name="permission_dialog_message_deny">In order to play video, we need access to media files on your device.</string>
     <string name="permission_dialog_message_permanant_deny">In order to play video, we need access to media files on your device. Go to settings to enable the permission.</string>
-    <string name="perimission_dialog_title">Need Permissions</string>
+    <string name="permission_dialog_title">Need Permissions</string>
     <string name="permission_dialog_positive_button_text_deny">Allow Access</string>
     <string name="permission_dialog_positive_button_text_permanant_deny">OPEN SETTINGS</string>
     <string name="permission_dialog_negative_button">Exit App</string>
@@ -30,4 +30,13 @@
     <string name="videos">Videos</string>
 
     <string name="tap_again_to_exit_app">Tap again to exit app</string>
+
+<!--    File info alert dialog-->
+    <string name="information">Information</string>
+    <string name="file_info">File info</string>
+    <string name="title">Title</string>
+    <string name="path">Path</string>
+    <string name="date">Date</string>
+    <string name="size">Size</string>
+    <string name="close">Close</string>
 </resources>

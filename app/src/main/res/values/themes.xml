@@ -21,13 +21,16 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:colorBackground">@color/color_background</item>
         <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="alertDialogStyle">@style/AlertDialogStyle</item>
     </style>
 
     <style name="BottomNavigation">
         <item name="android:background">@color/color_surface</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:dialogCornerRadius" tools:targetApi="p">12dp</item>
         <!-- Used for the buttons -->
         <item name="colorAccent">@color/color_primary</item>
@@ -37,15 +40,10 @@
         <item name="android:background">@color/color_surface</item>
     </style>
 
-
-    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
+
 
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">

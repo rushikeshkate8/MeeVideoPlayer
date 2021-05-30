@@ -12,7 +12,16 @@
     <dimen name="video_item_title_text_size">14sp</dimen>
     <dimen name="bottom_sheet_text_size">16sp</dimen>
 
+<!--    RecyclerView Utils-->
     <dimen name="padding_horizontal">16dp</dimen>
     <dimen name="vertical_padding_bottom_sheet_items">18dp</dimen>
     <dimen name="horizontal_margin_between_items">16dp</dimen>
+
+<!--    Simple Alert Dialog -->
+    <dimen name="alert_dialog_margin_sides">24dp</dimen>
+    <dimen name="alert_dialog_margin_vertical_between_title_and_element">8dp</dimen>
+    <dimen name="alert_dialog_margin_vertical_between_element">5dp</dimen>
+    <dimen name="alert_dialog_message_text_size">16sp</dimen>
+    <dimen name="alert_dialog_label_width">80dp</dimen>
+
 </resources>

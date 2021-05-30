@@ -1,12 +1,13 @@
 package com.mee.main.mainUtils
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.Html
+import android.view.*
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jiajunhui.xapp.medialoader.MediaLoader
@@ -15,7 +16,9 @@ import com.jiajunhui.xapp.medialoader.bean.VideoResult
 import com.jiajunhui.xapp.medialoader.callback.OnVideoLoaderCallBack
 import com.mee.main.MainActivityViewModel
 import com.mee.player.R
+import com.mee.player.databinding.FileInfoAlertDialogBinding
 import com.mee.player.databinding.VideoItemMoreBottomSheetBinding
+
 
 class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment() {
     lateinit var binding: VideoItemMoreBottomSheetBinding
@@ -63,6 +66,32 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
                     }
                 })
             }
+            dismiss()
+        }
+
+        binding.fileInfoBottomSheet.setOnClickListener {
+            val binding = FileInfoAlertDialogBinding.inflate(LayoutInflater.from(context))
+            binding.videoItem = videoItem
+
+            val builder = AlertDialog.Builder(context, R.style.AlertDialogStyle)
+                .setView(binding.root)
+                .setPositiveButton(R.string.close, { dialog, which ->
+
+                })
+            val alertDialog = builder.create()
+            alertDialog.setTitle(
+                Html.fromHtml(
+                    "<font color='${resources.getColor(R.color.color_primary)}'>${
+                        resources.getString(
+                            R.string.information
+                        )
+                    }</font>"
+                )
+            )
+
+
+            alertDialog.show()
+
             dismiss()
         }
     }

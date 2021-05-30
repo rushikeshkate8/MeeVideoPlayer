@@ -32,7 +32,7 @@ class VideosFragment : Fragment() {
         MainActivityViewModel.videoResult.observe(
             viewLifecycleOwner,
             { videoResult ->
-                    adapter!!.submitList(videoResult.items)
+                adapter!!.submitList(videoResult.items)
             })
         return binding!!.root
     }

@@ -87,6 +87,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/file_info_bottom_sheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple"
@@ -99,13 +100,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_share_24" />
+                    android:src="@drawable/ic_baseline_info_24" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/horizontal_margin_between_items"
-                    android:text="@string/share"
+                    android:text="@string/file_info"
                     android:textColor="@color/text_color_primary"
                     android:textSize="16sp" />
             </LinearLayout>

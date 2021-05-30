@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,15 +26,22 @@ import com.mee.player.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
+
     var viewModel: MainActivityViewModel? = null
     var binding: ActivityMainBinding? = null
+    private var alertDialog: AlertDialog? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         setUpBottomNavigationBar()
     }
+
 
     private fun setUpBottomNavigationBar() {
         binding!!.bottomNavBar.setItemSelected(R.id.videos_menu_item, true)
@@ -69,6 +77,8 @@ class MainActivity : AppCompatActivity() {
             override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                 report.grantedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
+                        alertDialog?.dismiss()
+                        alertDialog = null
                         updateMediaDatabase()
                         return
                     }
@@ -113,10 +123,21 @@ class MainActivity : AppCompatActivity() {
 
     fun simpleAlert(message: String, positiveButtonText: String, requestPermission: Boolean) {
 
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogStyle)
-        builder.setTitle(R.string.perimission_dialog_title)
-        builder.setMessage(message)
-        builder.setPositiveButton(
+        if (alertDialog != null) return
+
+        val requestDialogBuilder = AlertDialog.Builder(this, R.style.AlertDialogStyle)
+        requestDialogBuilder.setTitle(
+            Html.fromHtml(
+                "<font color='${resources.getColor(R.color.color_primary)}'>${
+                    resources.getString(
+                        R.string.permission_dialog_title
+                    )
+                }</font>"
+            )
+        )
+
+        requestDialogBuilder.setMessage(message)
+        requestDialogBuilder.setPositiveButton(
             positiveButtonText
         ) { dialog, which ->
 
@@ -131,16 +152,20 @@ class MainActivity : AppCompatActivity() {
                 intent.data = uri
                 startActivityForResult(intent, 101)
             }
+            dialog.cancel()
+            alertDialog = null
         }
-        builder.setNegativeButton(
+        requestDialogBuilder.setNegativeButton(
             R.string.permission_dialog_negative_button
         ) { dialog, which ->
             finishAndRemoveTask()
         }
-        val alertDialog = builder.create()
-        alertDialog.setCanceledOnTouchOutside(false)
 
-        alertDialog.show()
+        alertDialog = requestDialogBuilder.create()
+
+        alertDialog!!.setCanceledOnTouchOutside(false)
+
+        alertDialog!!.show()
     }
 
     override fun onBackPressed() {
@@ -150,7 +175,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
             viewModel!!.isBackPressed = true
             Handler(Looper.getMainLooper()).postDelayed(
-                { viewModel!!.isBackPressed = false }, 2000)
+                { viewModel!!.isBackPressed = false }, 2000
+            )
         }
     }
 

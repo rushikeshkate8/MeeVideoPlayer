@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="videoItem"
+            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />
+    </data>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/alert_dialog_margin_sides"
+            android:layout_marginTop="@dimen/alert_dialog_margin_vertical_between_title_and_element"
+            android:layout_marginBottom="@dimen/alert_dialog_margin_vertical_between_element"
+            tools:background="@color/white">
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_display_name_static"
+                android:layout_width="@dimen/alert_dialog_label_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/title"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/file_info_alert_dialog_display_name_static"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size"
+                app:videoDisplayName="@{videoItem.displayName}" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/alert_dialog_margin_sides"
+            android:layout_marginBottom="@dimen/alert_dialog_margin_vertical_between_element"
+            tools:background="@color/white">
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_size_static"
+                android:layout_width="@dimen/alert_dialog_label_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/size"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/file_info_alert_dialog_size_static"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size"
+                app:videoSize="@{videoItem.size}" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/alert_dialog_margin_sides"
+            android:layout_marginBottom="@dimen/alert_dialog_margin_vertical_between_element"
+            tools:background="@color/white">
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_path_static"
+                android:layout_width="@dimen/alert_dialog_label_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/path"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/file_info_alert_dialog_path_static"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size"
+                app:videoPath="@{videoItem.path}" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/alert_dialog_margin_sides"
+            android:layout_marginBottom="@dimen/alert_dialog_margin_vertical_between_element"
+            tools:background="@color/white">
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_date_static"
+                android:layout_width="@dimen/alert_dialog_label_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/date"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/file_info_alert_dialog_date_static"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size"
+                app:videoDateModifiedInMilliSec="@{videoItem.modified}" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+</layout>

@@ -29,6 +29,14 @@ allprojects {
         }
         jcenter()
     }
+
+    //Support @JvmDefault
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            freeCompilerArgs = ['-Xjvm-default=enable'] //enable or compatibility
+            //jvmTarget = "1.8"
+        }
+    }
 }
 
 task clean(type: Delete) {
