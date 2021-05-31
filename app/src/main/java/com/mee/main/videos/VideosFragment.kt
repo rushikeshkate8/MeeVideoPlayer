@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mee.main.MainActivityViewModel
 import com.mee.main.mainUtils.VideoItemModelBottomSheet
 import com.mee.player.PlayerActivity
+import com.mee.player.R
 import com.mee.player.databinding.VideosFragmentBinding
 import java.io.File
 

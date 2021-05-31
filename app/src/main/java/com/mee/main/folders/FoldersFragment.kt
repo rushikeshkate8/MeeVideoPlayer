@@ -20,7 +20,6 @@ class FoldersFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProvider(this).get(FoldersViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     companion object {

@@ -78,7 +78,7 @@
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:layout_marginVertical="8dp"
-            android:background="@drawable/ripple_video_item_more_image_button"
+            android:background="@drawable/ripple_circular"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />
     </RelativeLayout>
