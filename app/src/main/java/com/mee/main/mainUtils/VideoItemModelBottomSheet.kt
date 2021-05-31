@@ -24,16 +24,9 @@ import com.mee.main.MainActivityViewModel
 import com.mee.player.R
 import com.mee.player.databinding.FileInfoAlertDialogBinding
 import com.mee.player.databinding.VideoItemMoreBottomSheetBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 
-class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment(), CoroutineScope {
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-    private lateinit var job: Job
+class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment() {
 
     lateinit var binding: VideoItemMoreBottomSheetBinding
     lateinit var videoItem: VideoItem
@@ -43,7 +36,6 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        job = Job()
 
         videoItem = MainActivityViewModel.videoResult.value?.items?.get(position)!!
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
