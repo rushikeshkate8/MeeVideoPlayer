@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jiajunhui.xapp.medialoader.MediaLoader
 import com.jiajunhui.xapp.medialoader.bean.VideoItem
@@ -37,7 +38,12 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
         savedInstanceState: Bundle?
     ): View? {
 
+
+
         videoItem = MainActivityViewModel.videoResult.value?.items?.get(position)!!
+
+        DirectoryFileObserver(videoItem.path.substring(0, videoItem.path.lastIndexOf("/"))).startWatching()
+
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) binding.deleteBottomSheet.visibility =
@@ -138,7 +144,7 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
                     )!!, MediaStore.Files.FileColumns.DISPLAY_NAME + "=?", selectionArgsPdf
                 )
 
-                updateDatabase()
+                //updateDatabase()
             }
         }
     }
@@ -169,7 +175,7 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
             val fileId: Long = cursor.getLong(columnIndex)
             cursor.close()
             Uri.parse(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI.toString().toString() + "/" + fileId
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI.toString() + "/" + fileId
             )
         } else {
             null

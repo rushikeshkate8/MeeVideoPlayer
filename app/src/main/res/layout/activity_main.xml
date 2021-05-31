@@ -12,98 +12,6 @@
         android:layout_height="match_parent"
         tools:context="com.mee.main.MainActivity">
 
-<!--        <include-->
-<!--            android:id="@+id/include1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/include2"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include1" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/include3"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include2" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/include4"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include3" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/include5"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include4" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/include6"-->
-<!--            layout="@layout/video_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="14dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include5" />-->
-
-
-
-
-        <!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintVertical_bias="0.0">-->
-
-<!--            <include layout="@layout/video_item" />-->
-
-<!--            <include layout="@layout/video_item" />-->
-
-<!--            <include layout="@layout/video_item" />-->
-
-<!--            <include layout="@layout/video_item" />-->
-
-<!--            <include layout="@layout/video_item" />-->
-<!--        </LinearLayout>-->
-
-
         <com.ismaeldivita.chipnavigation.ChipNavigationBar
             android:id="@+id/bottom_nav_bar"
             style="@style/BottomNavigation"
@@ -120,9 +28,10 @@
             android:layout_height="0dp"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/nav_host"
-            tools:layout_editor_absoluteX="1dp" />
+            app:navGraph="@navigation/nav_host" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

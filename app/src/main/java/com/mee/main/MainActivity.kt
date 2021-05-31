@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.FileObserver
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         setUpBottomNavigationBar()
+
+        setUpObservers()
     }
 
 
@@ -67,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         MediaLoader.getLoader().loadVideos(this, object : OnVideoLoaderCallBack() {
             override fun onResult(result: VideoResult) {
                 MainActivityViewModel.videoResult.value = result
+                MainActivityViewModel.databaseUpdateHandled()
             }
         })
     }
@@ -173,6 +177,14 @@ class MainActivity : AppCompatActivity() {
         alertDialog!!.show()
     }
 
+    fun setUpObservers() {
+        MainActivityViewModel.updateDatabase.observe(this, {
+            if(it) {
+                updateMediaDatabase()
+            }
+        })
+    }
+
     override fun onBackPressed() {
         if (viewModel?.isBackPressed!!)
             super.onBackPressed()
@@ -187,7 +199,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        requestPermissions()
+        if(MainActivityViewModel.videoResult.value?.items  == null)
+            requestPermissions()
     }
 
     companion object {
