@@ -1,7 +1,6 @@
 package com.mee.main
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +9,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Html
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -80,6 +80,11 @@ class MainActivity : AppCompatActivity() {
                         alertDialog?.dismiss()
                         alertDialog = null
                         updateMediaDatabase()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Made by Rushikesh Kate",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return
                     }
                 }

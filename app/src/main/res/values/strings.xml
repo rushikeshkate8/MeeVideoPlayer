@@ -24,8 +24,12 @@
     <string name="permission_dialog_positive_button_text_permanant_deny">OPEN SETTINGS</string>
     <string name="permission_dialog_negative_button">Exit App</string>
 
+
+<!--    Bottom Sheet Video Item-->
     <string name="share">Share</string>
     <string name="delete">Delete</string>
+    <string name="file_info">File info</string>
+
     <string name="folders">Folders</string>
     <string name="videos">Videos</string>
 
@@ -33,10 +37,10 @@
 
 <!--    File info alert dialog-->
     <string name="information">Information</string>
-    <string name="file_info">File info</string>
     <string name="title">Title</string>
     <string name="path">Path</string>
     <string name="date">Date</string>
     <string name="size">Size</string>
     <string name="close">Close</string>
+
 </resources>

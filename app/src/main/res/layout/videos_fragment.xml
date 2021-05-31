@@ -11,77 +11,14 @@
         android:layout_height="match_parent"
         tools:context="com.mee.main.MainActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
             android:id="@+id/video_items_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:itemCount="10"
             tools:listitem="@layout/video_item"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        <!--    <include-->
-        <!--        android:id="@+id/include1"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--    <include-->
-        <!--        android:id="@+id/include2"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/include1" />-->
-
-        <!--    <include-->
-        <!--        android:id="@+id/include3"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/include2" />-->
-
-        <!--    <include-->
-        <!--        android:id="@+id/include4"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/include3" />-->
-
-        <!--    <include-->
-        <!--        android:id="@+id/include5"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/include4" />-->
-
-        <!--    <include-->
-        <!--        android:id="@+id/include6"-->
-        <!--        layout="@layout/video_item"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginVertical="14dp"-->
-        <!--        android:layout_marginStart="16dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/include5" />-->
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:fastScrollThumbColor="@color/color_primary"
+            app:fastScrollThumbInactiveColor="@color/default_icon_color"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

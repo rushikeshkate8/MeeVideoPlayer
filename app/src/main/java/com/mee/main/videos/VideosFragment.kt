@@ -26,6 +26,7 @@ class VideosFragment : Fragment() {
         binding = VideosFragmentBinding.inflate(inflater, container, false)
         binding!!.lifecycleOwner = this
 
+
         adapter = VideosAdapter(getVideoItemClickListener(), getMoreImageViewClickListener())
 
         binding!!.videoItemsRecyclerView.adapter = adapter
