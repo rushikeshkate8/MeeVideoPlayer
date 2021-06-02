@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="videoItem"
-            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />
-    </data>
 
     <RelativeLayout
         android:id="@+id/video_item_relative_layout"
@@ -39,7 +33,6 @@
                 android:layout_height="56dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:imagePath="@{videoItem.path}"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
@@ -52,8 +45,7 @@
                 android:background="@drawable/video_item_duration_rounded_background"
                 android:paddingHorizontal="4dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/video_item_duration_text_size"
-                app:videoDuration="@{videoItem.duration}" />
+                android:textSize="@dimen/video_item_duration_text_size"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -69,7 +61,6 @@
             android:maxLines="2"
             android:textColor="@color/text_color_primary"
             android:textSize="@dimen/video_item_title_text_size"
-            app:videoDisplayName="@{videoItem.displayName}"
             tools:text="Title" />
 
         <ImageButton
@@ -84,3 +75,90 @@
     </RelativeLayout>
 
 </layout>
+
+<!--    <?xml version="1.0" encoding="utf-8"?>-->
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tools="http://schemas.android.com/tools">-->
+
+<!--<data>-->
+
+<!--    <variable-->
+<!--        name="videoItem"-->
+<!--        type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />-->
+<!--</data>-->
+
+<!--<RelativeLayout-->
+<!--    android:id="@+id/video_item_relative_layout"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:background="@drawable/ripple"-->
+<!--    android:clickable="true"-->
+<!--    android:focusable="true"-->
+<!--    android:paddingStart="@dimen/padding_horizontal"-->
+<!--    android:paddingBottom="3dp"-->
+<!--    android:paddingTop="11dp">-->
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/video_item_card_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        app:cardBackgroundColor="@color/color_surface"-->
+<!--        app:cardCornerRadius="4dp"-->
+<!--        app:cardElevation="3dp"-->
+<!--        app:cardMaxElevation="10dp"-->
+<!--        app:cardPreventCornerOverlap="true">-->
+<!--        &lt;!&ndash;            app:cardUseCompatPadding="true"&ndash;&gt;-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/video_thumbnail_image_view"-->
+<!--            android:layout_width="96dp"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:imagePath="@{videoItem.path}"-->
+<!--            tools:src="@tools:sample/backgrounds/scenic" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/video_duration_text_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|bottom"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:background="@drawable/video_item_duration_rounded_background"-->
+<!--            android:paddingHorizontal="4dp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/video_item_duration_text_size"-->
+<!--            app:videoDuration="@{videoItem.duration}" />-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/video_title_text_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_toStartOf="@id/more_menu_item_image_view"-->
+<!--        android:layout_toEndOf="@id/video_item_card_view"-->
+<!--        android:ellipsize="end"-->
+<!--        android:lineSpacingExtra="4dp"-->
+<!--        android:maxLines="2"-->
+<!--        android:textColor="@color/text_color_primary"-->
+<!--        android:textSize="@dimen/video_item_title_text_size"-->
+<!--        app:videoDisplayName="@{videoItem.displayName}"-->
+<!--        tools:text="Title" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/more_menu_item_image_view"-->
+<!--        android:layout_width="48dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginVertical="8dp"-->
+<!--        android:background="@drawable/ripple_circular"-->
+<!--        android:scaleType="centerInside"-->
+<!--        app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />-->
+<!--</RelativeLayout>-->
+
+<!--</layout>-->

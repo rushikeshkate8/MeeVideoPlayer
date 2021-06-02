@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+<!--    <data>-->
 
-        <variable
-            name="videoItem"
-            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />
-    </data>
+<!--        <variable-->
+<!--            name="videoItem"-->
+<!--            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />-->
+<!--    </data>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,6 @@
             android:maxLines="5"
             android:paddingHorizontal="@dimen/padding_horizontal"
             android:textColor="@color/color_primary"
-            app:videoDisplayName="@{videoItem.displayName}"
             tools:text="Title" />
 
         <androidx.core.widget.NestedScrollView
