@@ -78,10 +78,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     fun updateMediaDatabase() {
-
-        MainActivityViewModel.videos.value = MediaFacer
-            .withVideoContex(this)
-            .getAllVideoContent(VideoGet.externalContentUri)
+        launch {
+            MainActivityViewModel.videos.value = async(Dispatchers.IO) {
+                MediaFacer
+                    .withVideoContex(mActivity)
+                    .getAllVideoContent(VideoGet.externalContentUri)
+            }.await()
+        }
 
 //        launch {
 //            withContext(Dispatchers.IO) {

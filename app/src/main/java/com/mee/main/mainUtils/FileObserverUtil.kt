@@ -18,17 +18,17 @@ import java.io.File
 //    }
 //}
 
-class DirectoryFileObserver(path: String) :
-    FileObserver(path, ALL_EVENTS) {
-    var aboslutePath = "path to your directory"
-
-    override fun onEvent(event: Int, path: String?) {
-            MainActivityViewModel.needDatabaseUpdate()
-            stopWatching()
-    }
-
-    init {
-        aboslutePath = path
-        Log.i("FileObserver: ", "File Deleted")
-    }
-}
+//class DirectoryFileObserver(path: String) :
+//    FileObserver(path, ALL_EVENTS) {
+//    var aboslutePath = "path to your directory"
+//
+//    override fun onEvent(event: Int, path: String?) {
+//            MainActivityViewModel.needDatabaseUpdate()
+//            stopWatching()
+//    }
+//
+//    init {
+//        aboslutePath = path
+//        Log.i("FileObserver: ", "File Deleted")
+//    }
+//}

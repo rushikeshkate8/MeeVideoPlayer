@@ -114,6 +114,7 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
             bindVideoNameTextView(binding.fileInfoAlertDialogVideoName, video.videoName)
             bindVideoPath(binding.fileInfoAlertDialogPath, video.path)
             bindVideoSize(binding.fileInfoAlertDialogSize, video.videoSize)
+            binding.fileInfoAlertDialogFormat.text = requireActivity().contentResolver.getType(video.assetFileStringUri.toUri())
 
 
             val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
