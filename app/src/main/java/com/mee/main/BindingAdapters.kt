@@ -1,47 +1,79 @@
 package com.mee.main
 
+import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.*
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
+
+val job = Job()
+val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
 @BindingAdapter("imagePath")
-fun bindImage(imageView: ImageView, imagePath: String) {
-    Glide.with(imageView.context).load(File(imagePath)).into(imageView)
+fun bindImage(imageView: ImageView, imagePath: Uri) {
+    Glide.with(imageView.context).load(imagePath).into(imageView)
 }
 
 @BindingAdapter("videoDuration")
 fun bindVideoDurationTextView(textView: TextView, duration: Long) {
-    val hr = TimeUnit.MILLISECONDS.toHours(duration)
-    val min = TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(
-        TimeUnit.MILLISECONDS.toHours(duration)
-    )
-    val sec = TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(
-        TimeUnit.MILLISECONDS.toMinutes(duration)
-    )
+//    val job = Job()
+//    val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
-    val formatedDuration: String
+    CoroutineScope(coroutineContext).launch {
 
-    if (hr == 0L) {
-        formatedDuration = String.format("%02d:%02d", min, sec)
-    } else {
-        formatedDuration = String.format("%02d:%02d:%02d", hr, min, sec)
+            val hr = async(Dispatchers.Default) {TimeUnit.MILLISECONDS.toHours(duration)}
+            val min = async(Dispatchers.Default) {TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(
+                TimeUnit.MILLISECONDS.toHours(duration)
+            )}
+            val sec = async(Dispatchers.Default) {TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(
+                TimeUnit.MILLISECONDS.toMinutes(duration)
+            )}
+
+            val formatedDuration: Deferred<String>
+
+            if (hr.await() == 0L) {
+                formatedDuration = async(Dispatchers.Default){String.format("%02d:%02d", min.await(), sec.await())}
+            } else {
+                formatedDuration = async(Dispatchers.Default){String.format("%02d:%02d:%02d", hr.await(), min.await(), sec.await())}
+        }
+        textView.text = formatedDuration.await()
     }
-    textView.text = formatedDuration
+
+
+//    val hr = TimeUnit.MILLISECONDS.toHours(duration)
+//    val min = TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(
+//        TimeUnit.MILLISECONDS.toHours(duration)
+//    )
+//    val sec = TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(
+//        TimeUnit.MILLISECONDS.toMinutes(duration)
+//    )
+//
+//    val formatedDuration: String
+//
+//    if (hr == 0L) {
+//        formatedDuration = String.format("%02d:%02d", min, sec)
+//    } else {
+//        formatedDuration = String.format("%02d:%02d:%02d", hr, min, sec)
+//    }
+//    textView.text = formatedDuration
 }
 
 @BindingAdapter("videoDisplayName")
-fun bindVideoDisplayNameTextView(textView: TextView, videoDisplayName: String){
-    if (videoDisplayName.indexOf(".") > 0) {
-         textView.text = videoDisplayName.substring(0, videoDisplayName.lastIndexOf("."))
-    } else {
-         textView.text = videoDisplayName
+fun bindVideoNameTextView(textView: TextView, videoDisplayName: String?){
+    CoroutineScope(coroutineContext).launch {
+        if (async(Dispatchers.Default){videoDisplayName!!.indexOf(".")}.await() > 0) {
+            textView.text = async(Dispatchers.Default){videoDisplayName!!.substring(0, videoDisplayName!!.lastIndexOf("."))}.await()
+        } else {
+            textView.text = videoDisplayName
+        }
     }
 }
 
@@ -55,12 +87,12 @@ fun bindVideoDate(textView: TextView, dateLong: Long) {
 }
 
 @BindingAdapter("videoPath")
-fun bindVideoLocation(textView: TextView, path: String) {
-    val location = path.substring(0, path.lastIndexOf("/"))
+fun bindVideoPath(textView: TextView, path: String?) {
+    val location = path!!.substring(0, path.lastIndexOf("/"))
     textView.text = location
 }
 
 @BindingAdapter("videoSize")
-fun bindVideoSize(textView: TextView, size: Long) {
-    textView.text = android.text.format.Formatter.formatFileSize(textView.context, size)
+fun bindVideoSize(textView: TextView, size: Long?) {
+    textView.text = android.text.format.Formatter.formatFileSize(textView.context, size!!)
 }

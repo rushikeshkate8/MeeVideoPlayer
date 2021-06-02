@@ -13,9 +13,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.jiajunhui.xapp.medialoader.MediaLoader
-import com.jiajunhui.xapp.medialoader.bean.VideoResult
-import com.jiajunhui.xapp.medialoader.callback.OnVideoLoaderCallBack
+import com.CodeBoy.MediaFacer.MediaFacer
+import com.CodeBoy.MediaFacer.VideoGet
+import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -23,9 +23,17 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mee.player.R
 import com.mee.player.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    private lateinit var job: Job
+
+    private lateinit var mActivity: MainActivity
 
     var viewModel: MainActivityViewModel? = null
     var binding: ActivityMainBinding? = null
@@ -35,11 +43,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        job = Job()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
+        mActivity = this
+
         setUpBottomNavigationBar()
+
+        setUpObservers()
     }
 
 
@@ -64,11 +78,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateMediaDatabase() {
-        MediaLoader.getLoader().loadVideos(this, object : OnVideoLoaderCallBack() {
-            override fun onResult(result: VideoResult) {
-                MainActivityViewModel.videoResult.value = result
-            }
-        })
+
+        MainActivityViewModel.videos.value = MediaFacer
+            .withVideoContex(this)
+            .getAllVideoContent(VideoGet.externalContentUri)
+
+//        launch {
+//            withContext(Dispatchers.IO) {
+//                MediaLoader.getLoader().loadVideos(mActivity, object : OnVideoLoaderCallBack() {
+//                    override fun onResult(result: VideoResult) {
+//                        MainActivityViewModel.videoResult.postValue(result)
+//                        MainActivityViewModel.databaseUpdateHandled()
+//                    }
+//                })
+//            }
+//        }
+
     }
 
     private fun requestPermissions() {
@@ -77,8 +102,10 @@ class MainActivity : AppCompatActivity() {
             override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                 report.grantedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
+
                         alertDialog?.dismiss()
                         alertDialog = null
+
                         updateMediaDatabase()
                         Toast.makeText(
                             this@MainActivity,
@@ -173,6 +200,15 @@ class MainActivity : AppCompatActivity() {
         alertDialog!!.show()
     }
 
+    fun setUpObservers() {
+        MainActivityViewModel.updateDatabase.observe(this, {
+            if (it) {
+                updateMediaDatabase()
+                MainActivityViewModel.databaseUpdateHandled()
+            }
+        })
+    }
+
     override fun onBackPressed() {
         if (viewModel?.isBackPressed!!)
             super.onBackPressed()
@@ -187,7 +223,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        requestPermissions()
+        if (MainActivityViewModel.videos.value!!.size == 0)
+            requestPermissions()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     companion object {

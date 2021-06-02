@@ -42,6 +42,8 @@
     <string name="date">Date</string>
     <string name="size">Size</string>
     <string name="close">Close</string>
+
+<!--    Sorting -->
     <string name="sort_by">Sort by</string>
     <string name="newest_date_first">Newest date first</string>
     <string name="oldest_date_first">Oldest date first</string>

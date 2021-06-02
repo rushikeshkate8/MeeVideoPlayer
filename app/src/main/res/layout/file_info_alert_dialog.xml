@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+<!--    <data>-->
 
-        <variable
-            name="videoItem"
-            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />
-    </data>
+<!--        <variable-->
+<!--            name="videoItem"-->
+<!--            type="com.jiajunhui.xapp.medialoader.bean.VideoItem" />-->
+<!--    </data>-->
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -26,7 +26,7 @@
             tools:background="@color/white">
 
             <TextView
-                android:id="@+id/file_info_alert_dialog_display_name_static"
+                android:id="@+id/file_info_alert_dialog_video_name_static"
                 android:layout_width="@dimen/alert_dialog_label_width"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -35,14 +35,13 @@
                 android:textSize="@dimen/alert_dialog_message_text_size" />
 
             <TextView
-                android:id="@+id/file_info_alert_dialog_display_name"
+                android:id="@+id/file_info_alert_dialog_video_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/file_info_alert_dialog_display_name_static"
+                android:layout_toEndOf="@id/file_info_alert_dialog_video_name_static"
                 android:textColor="@color/text_color_primary"
-                android:textSize="@dimen/alert_dialog_message_text_size"
-                app:videoDisplayName="@{videoItem.displayName}" />
+                android:textSize="@dimen/alert_dialog_message_text_size" />
 
         </RelativeLayout>
 
@@ -69,8 +68,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/file_info_alert_dialog_size_static"
                 android:textColor="@color/text_color_primary"
-                android:textSize="@dimen/alert_dialog_message_text_size"
-                app:videoSize="@{videoItem.size}" />
+                android:textSize="@dimen/alert_dialog_message_text_size" />
 
         </RelativeLayout>
 
@@ -97,8 +95,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/file_info_alert_dialog_path_static"
                 android:textColor="@color/text_color_primary"
-                android:textSize="@dimen/alert_dialog_message_text_size"
-                app:videoPath="@{videoItem.path}" />
+                android:textSize="@dimen/alert_dialog_message_text_size" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -124,8 +121,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/file_info_alert_dialog_date_static"
                 android:textColor="@color/text_color_primary"
-                android:textSize="@dimen/alert_dialog_message_text_size"
-                app:videoDateModifiedInMilliSec="@{videoItem.modified}" />
+                android:textSize="@dimen/alert_dialog_message_text_size" />
         </RelativeLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
