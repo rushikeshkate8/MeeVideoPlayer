@@ -24,14 +24,14 @@ class VideosAdapter(
     }
 
     override fun onBindViewHolder(holder: VideoItemViewHolder, position: Int) {
+        val video = getItem(holder.adapterPosition)
 
-        bindVideoNameTextView(holder.binding.videoTitleTextView, getItem(position).videoName)
-        bindImage(holder.binding.videoThumbnailImageView, getItem(position).assetFileStringUri.toUri())
-        bindVideoDurationTextView(holder.binding.videoDurationTextView, getItem(position).videoDuration)
+        bindVideoNameTextView(holder.binding.videoTitleTextView, video.videoName)
+        bindImage(holder.binding.videoThumbnailImageView, video.assetFileStringUri.toUri())
+        bindVideoDurationTextView(holder.binding.videoDurationTextView, video.videoDuration)
 
-
-        holder.binding.moreMenuItemImageView.setOnClickListener {moreImageViewClickListener.OnClick(position)}
-        holder.binding.videoItemRelativeLayout.setOnClickListener {videoItemClickListener.OnClick(position)}
+        holder.binding.moreMenuItemImageView.setOnClickListener {moreImageViewClickListener.OnClick(holder.adapterPosition)}
+        holder.binding.videoItemRelativeLayout.setOnClickListener {videoItemClickListener.OnClick(holder.adapterPosition)}
     }
 
     class VideoItemViewHolder(var binding: VideoItemBinding) : RecyclerView.ViewHolder(binding.root)

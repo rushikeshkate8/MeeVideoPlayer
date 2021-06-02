@@ -40,16 +40,11 @@ class VideosFragment : Fragment(), CoroutineScope {
         adapter = VideosAdapter(getVideoItemClickListener(), getMoreImageViewClickListener())
 
         binding!!.videoItemsRecyclerView.adapter = adapter
-//        MainActivityViewModel.videoResult.observe(
-//            viewLifecycleOwner,
-//            { videoResult ->
-//                adapter!!.submitList(videoResult.items)
-//            })
+
         MainActivityViewModel.videos.observe(viewLifecycleOwner, {
             launch {
                 withContext(Dispatchers.Main) {
-
-                    adapter!!.submitList(it)
+                    adapter!!.submitList(it.toList())
                 }
             }
         })
@@ -59,7 +54,6 @@ class VideosFragment : Fragment(), CoroutineScope {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProvider(this).get(VideosViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     companion object {

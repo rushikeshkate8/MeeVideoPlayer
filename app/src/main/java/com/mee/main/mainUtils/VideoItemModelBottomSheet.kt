@@ -147,29 +147,26 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
             return
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
+
 
             val contentResolver = activity?.contentResolver
 
             if (contentResolver != null) {
                 val selectionArgsPdf = arrayOf<String>(video.videoName)
 
-                DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
+                //DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
 
                 contentResolver.delete(
                    video.assetFileStringUri.toUri(), MediaStore.Files.FileColumns.DISPLAY_NAME + "=?", selectionArgsPdf
                 )
 
+                MainActivityViewModel.videos.value!!.removeAt(position)
+
             //val file = MediaStoreCompat.fromMediaId(requireContext(), MediaType.VIDEO, video.videoId)
                 //MediaStoreCompat.fromFileName(requireContext(), MediaType.VIDEO, video.videoName)
 
-
-
-
-           //MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
+           MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
         }
-
-
 
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 //
