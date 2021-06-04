@@ -59,7 +59,7 @@
         <!-- Tints the input fields like checkboxes and text fields -->
         <item name="colorAccent">@color/color_primary</item>
         <!-- Applies to views in their normal state. -->
-        <item name="colorControlNormal">@color/default_icon_color</item>
+        <item name="colorControlNormal">@color/primary_icon_color</item>
         <!-- Applies to views in their activated state (i.e checked or switches) -->
         <item name="colorControlActivated">@color/color_primary</item>
         <!-- Applied to framework control highlights (i.e ripples or list selectors) -->

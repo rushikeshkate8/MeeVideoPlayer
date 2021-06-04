@@ -33,6 +33,9 @@
     <string name="folders">Folders</string>
     <string name="videos">Videos</string>
 
+    <string name="video_count">%s video</string>
+    <string name="videos_count">%s videos</string>
+
     <string name="tap_again_to_exit_app">Tap again to exit app</string>
 
 <!--    File info alert dialog-->

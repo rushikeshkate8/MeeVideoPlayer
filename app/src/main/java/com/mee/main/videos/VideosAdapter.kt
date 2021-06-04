@@ -13,6 +13,7 @@ import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.mee.main.bindImage
 import com.mee.main.bindVideoNameTextView
 import com.mee.main.bindVideoDurationTextView
+import com.mee.main.bindVideoSize
 
 class VideosAdapter(
     val videoItemClickListener: OnClickListener,
@@ -24,14 +25,15 @@ class VideosAdapter(
     }
 
     override fun onBindViewHolder(holder: VideoItemViewHolder, position: Int) {
-        val video = getItem(holder.adapterPosition)
+        val video = getItem(holder.absoluteAdapterPosition)
 
         bindVideoNameTextView(holder.binding.videoTitleTextView, video.videoName)
         bindImage(holder.binding.videoThumbnailImageView, video.assetFileStringUri.toUri())
         bindVideoDurationTextView(holder.binding.videoDurationTextView, video.videoDuration)
+        bindVideoSize(holder.binding.videoSizeTextView, video.videoSize)
 
-        holder.binding.moreMenuItemImageView.setOnClickListener {moreImageViewClickListener.OnClick(holder.adapterPosition)}
-        holder.binding.videoItemRelativeLayout.setOnClickListener {videoItemClickListener.OnClick(holder.adapterPosition)}
+        holder.binding.moreMenuItemImageView.setOnClickListener {moreImageViewClickListener.OnClick(holder.absoluteAdapterPosition)}
+        holder.binding.videoItemRelativeLayout.setOnClickListener {videoItemClickListener.OnClick(holder.absoluteAdapterPosition)}
     }
 
     class VideoItemViewHolder(var binding: VideoItemBinding) : RecyclerView.ViewHolder(binding.root)

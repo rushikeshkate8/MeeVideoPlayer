@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.CodeBoy.MediaFacer.MediaFacer
 import com.CodeBoy.MediaFacer.VideoGet
-import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -47,13 +46,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         mActivity = this
 
         setUpBottomNavigationBar()
 
-        setUpObservers()
+        //setUpObservers()
     }
 
 
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     }
 
-    fun updateMediaDatabase() {
+    fun updateVideoDatabase() {
         launch {
             MainActivityViewModel.videos.value = async(Dispatchers.IO) {
                 MediaFacer
@@ -106,14 +106,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 report.grantedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
 
+                        MainActivityViewModel.isReadPermissionGranted = true
+
                         alertDialog?.dismiss()
                         alertDialog = null
 
-                        updateMediaDatabase()
+                        updateVideoDatabase()
                         Toast.makeText(
                             this@MainActivity,
                             "Made by Rushikesh Kate",
-                            Toast.LENGTH_SHORT
+                            Toast.LENGTH_LONG
                         ).show()
                         return
                     }
@@ -121,6 +123,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
                 report.deniedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
+
+                        MainActivityViewModel.isReadPermissionGranted = false
+
                         if (it.isPermanentlyDenied) {
                             simpleAlert(
                                 resources.getString(R.string.permission_dialog_message_permanant_deny),
@@ -203,14 +208,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         alertDialog!!.show()
     }
 
-    fun setUpObservers() {
-        MainActivityViewModel.updateDatabase.observe(this, {
-            if (it) {
-                updateMediaDatabase()
-                MainActivityViewModel.databaseUpdateHandled()
-            }
-        })
-    }
+//    fun setUpObservers() {
+//        MainActivityViewModel.updateDatabase.observe(this, {
+//            if (it) {
+//                updateVideoDatabase()
+//                MainActivityViewModel.databaseUpdateHandled()
+//            }
+//        })
+//    }
 
     override fun onBackPressed() {
         if (viewModel?.isBackPressed!!)

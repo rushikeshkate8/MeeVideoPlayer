@@ -5,26 +5,26 @@
     <color name="color_primary">@color/dodger_blue</color>
     <color name="color_primary_light">@color/dodger_blue_light</color>
     <color name="color_on_primary">@color/white</color>
-    <color name="color_background">@color/anti_flash_white</color>
+<!--    <color name="color_background">@color/anti_flash_white</color>-->
+    <color name="color_background">@color/white</color>
     <color name="color_surface">@color/white</color>
-    <color name="secondary_text_material_light">@color/slate_gray</color>
+    <color name="secondary_text_color">@color/slate_gray</color>
+    <color name="secondary_text_color_light">@color/slate_gray_light</color>
+
     <color name="view_separator">@color/gainsboro</color>
     <color name="color_primium">@color/violet</color>
-
-
+    <color name="primary_icon_color">@color/slate_gray</color>
+    <color name="secondary_icon_color">@color/slate_gray_light</color>
     <color name="video_duratin_background_color">#99000000</color>
+    <color name="ripple_default_color">#407E7E7E</color>
 
     <color name="exo_bottom_bar_background">#88000000</color>
     <color name="exo_black_opacity_30" tools:keep="@color/exo_black_opacity_30">#00000000</color>
-    <color name="royal_blue">#3930d8</color>
-
-    <color name="default_icon_color">@color/slate_gray</color>
 
     <color name="alert_dialog_title">@color/text_color_primary</color>
-    <color name="alert_dialog_message">@color/secondary_text_material_light</color>
+    <color name="alert_dialog_message">@color/secondary_text_color</color>
 <!--    <color name="alert_dialog_message">#8A000000</color>-->
 
-    <color name="ripple_default_color">#407E7E7E</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
@@ -36,6 +36,8 @@
     <color name="grey_550">#696969</color>
     <color name="grey_600">#616161</color>
     <color name="grey_800">#424242</color>
+
+    <color name="royal_blue">#3930d8</color>
 
 <!--    <color name="violet">#7C4CFE</color>-->
 <!--    <color name="violet_light">#807C4CFE</color>-->
@@ -51,9 +53,7 @@
     <color name="anti_flash_white">#F8F9FB</color>
     <color name="slate_gray">#64668d</color>
     <color name="gainsboro">#d6dee7</color>
-
-
-
+    <color name="slate_gray_light">#9964668d</color>
 
 
 <!--    RetroMusic Colors-->

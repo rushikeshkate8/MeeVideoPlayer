@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.mee.player.R
 import kotlinx.coroutines.*
 import java.io.File
 import java.text.DateFormat
@@ -94,5 +95,18 @@ fun bindVideoPath(textView: TextView, path: String?) {
 
 @BindingAdapter("videoSize")
 fun bindVideoSize(textView: TextView, size: Long?) {
-    textView.text = android.text.format.Formatter.formatFileSize(textView.context, size!!)
+    CoroutineScope(coroutineContext).launch {
+        textView.text = async(Dispatchers.Default){android.text.format.Formatter.formatFileSize(textView.context, size!!)}.await()
+    }
+}
+
+@BindingAdapter("videoCount")
+fun bindVideoCountTextView(textView: TextView, count: Int) {
+    val context = textView.context
+    if(count > 1) {
+        textView.setText(String.format(context.resources.getString(R.string.videos_count), count.toString()))
+    }
+    else {
+        textView.setText(String.format(context.resources.getString(R.string.video_count), count.toString()))
+    }
 }

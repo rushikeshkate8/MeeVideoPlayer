@@ -202,14 +202,14 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
         }
     }
 
-    fun updateDatabase() {
-        MediaLoader.getLoader()
-            .loadVideos(activity, object : OnVideoLoaderCallBack() {
-                override fun onResult(result: VideoResult) {
-                    MainActivityViewModel.videoResult.value = result
-                }
-            })
-    }
+//    fun updateDatabase() {
+//        MediaLoader.getLoader()
+//            .loadVideos(activity, object : OnVideoLoaderCallBack() {
+//                override fun onResult(result: VideoResult) {
+//                    MainActivityViewModel.videoResult.value = result
+//                }
+//            })
+//    }
 
 
     fun getUriFromDisplayName(context: Context, displayName: String): Uri? {

@@ -11,12 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.mee.main.MainActivityViewModel
 import com.mee.main.mainUtils.VideoItemModelBottomSheet
 import com.mee.player.PlayerActivity
-import com.mee.player.R
 import com.mee.player.databinding.VideosFragmentBinding
-import java.io.File
-import com.CodeBoy.MediaFacer.mediaHolders.videoContent
-import com.mee.main.job
 import kotlinx.coroutines.*
+import java.io.File
 import kotlin.coroutines.CoroutineContext
 
 
@@ -27,6 +24,8 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     private var mViewModel: VideosViewModel? = null
     var binding: VideosFragmentBinding? = null
+
+    lateinit var adapter: VideosAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +47,7 @@ class VideosFragment : Fragment(), CoroutineScope {
                 }
             }
         })
+
         return binding!!.root
     }
 
@@ -60,8 +60,6 @@ class VideosFragment : Fragment(), CoroutineScope {
         fun newInstance(): VideosFragment {
             return VideosFragment()
         }
-
-        var adapter: VideosAdapter? = null
     }
 
     fun getVideoItemClickListener(): VideosAdapter.OnClickListener {
