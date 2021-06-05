@@ -2,9 +2,10 @@
   <library name="Gradle: ./app/libs/extension-ffmpeg-release.aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a3c9bdea9274a38e0b758a03426ae999/jetified-extension-ffmpeg-release/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1436bcd3e19890fdd4edc6bb6bdd015d/jetified-extension-ffmpeg-release/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1436bcd3e19890fdd4edc6bb6bdd015d/jetified-extension-ffmpeg-release/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1436bcd3e19890fdd4edc6bb6bdd015d/jetified-extension-ffmpeg-release/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/730420bf4a20c36b6bb6553aca0288ea/jetified-extension-ffmpeg-release/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/730420bf4a20c36b6bb6553aca0288ea/jetified-extension-ffmpeg-release/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/730420bf4a20c36b6bb6553aca0288ea/jetified-extension-ffmpeg-release/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

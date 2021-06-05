@@ -80,6 +80,33 @@
             tools:background="@color/white">
 
             <TextView
+                android:id="@+id/file_info_alert_dialog_format_static"
+                android:layout_width="@dimen/alert_dialog_label_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/format"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+            <TextView
+                android:id="@+id/file_info_alert_dialog_format"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/file_info_alert_dialog_format_static"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/alert_dialog_message_text_size" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/alert_dialog_margin_sides"
+            android:layout_marginBottom="@dimen/alert_dialog_margin_vertical_between_element"
+            tools:background="@color/white">
+
+            <TextView
                 android:id="@+id/file_info_alert_dialog_path_static"
                 android:layout_width="@dimen/alert_dialog_label_width"
                 android:layout_height="wrap_content"

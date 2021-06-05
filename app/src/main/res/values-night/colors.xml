@@ -12,5 +12,5 @@
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_500">#7E7E7E</color>
-    <color name="default_icon_color">@color/grey_50</color>
+    <color name="primary_icon_color">@color/grey_50</color>
 </resources>

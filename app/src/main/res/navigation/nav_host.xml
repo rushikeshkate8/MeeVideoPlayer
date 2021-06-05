@@ -12,5 +12,17 @@
         android:id="@+id/folders_fragment"
         android:name="com.mee.main.folders.FoldersFragment"
         android:label="folders_fragment"
-        tools:layout="@layout/folders_fragment" />
+        tools:layout="@layout/folders_fragment" >
+        <action
+            android:id="@+id/action_folders_fragment_to_foldersVideosFragment"
+            app:destination="@id/foldersVideosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foldersVideosFragment"
+        android:name="com.mee.main.folders.foldersVideos.FoldersVideosFragment"
+        android:label="FoldersVideosFragment" >
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 </navigation>

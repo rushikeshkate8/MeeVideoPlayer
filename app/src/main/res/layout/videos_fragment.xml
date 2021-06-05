@@ -13,57 +13,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
-    <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-        <!-- Toolbar is the actual app bar with text and the action items -->
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_videos_fragment"
+        <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
+        <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_surface"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="MeePlayer"
-            app:logo="@drawable/ic_baseline_play_circle_24"
-            app:titleMarginStart="24dp"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            style="@style/ToolbarTheme">
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:elevation="0dp">
 
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ripple_circular"
-                app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24"
-                android:layout_gravity="end"/>
-        </androidx.appcompat.widget.Toolbar>
+            <!-- Toolbar is the actual app bar with text and the action items -->
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_videos_fragment"
+                style="@style/ToolbarTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_surface"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:logo="@drawable/ic_baseline_play_circle_24"
+                app:title="MeePlayer"
+                app:titleMarginStart="24dp"
+                app:titleTextAppearance="@style/Toolbar.TitleText">
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/ripple_circular"
+                    app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <!-- This could also be included from another file using the include tag -->
         <!-- i.e `res/layout/content_main.xml` -->
         <!-- `app:layout_behavior` is set to a pre-defined standard scrolling behavior -->
-        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-            android:id="@+id/video_items_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:fastScrollThumbColor="@color/color_primary"
-            app:fastScrollThumbInactiveColor="@color/default_icon_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_videos_fragment" />
+
+
+                <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                    android:id="@+id/video_items_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fastScrollThumbColor="@color/color_primary"
+                    app:fastScrollThumbInactiveColor="@color/primary_icon_color"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar_videos_fragment" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
