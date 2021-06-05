@@ -91,7 +91,7 @@ dependencies {
     implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.4'
 
     // For loading media files
-    implementation 'com.jiajunhui.xapp.medialoader:medialoader:1.2.1'
+   // implementation 'com.jiajunhui.xapp.medialoader:medialoader:1.2.1'
 
 
     // Navigation Componets

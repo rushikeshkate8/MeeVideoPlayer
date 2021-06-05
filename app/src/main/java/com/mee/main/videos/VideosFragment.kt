@@ -5,26 +5,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.CodeBoy.MediaFacer.MediaFacer
 import com.CodeBoy.MediaFacer.VideoGet
-import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.mee.main.MainActivityViewModel
+import com.mee.main.mainUtils.FolderVideoPair
 import com.mee.main.mainUtils.VideoItemModelBottomSheet
+import com.mee.main.mainUtils.VideoItemModelBottomSheet.Companion.TAG
 import com.mee.player.PlayerActivity
-import com.mee.player.R
 import com.mee.player.databinding.VideosFragmentBinding
 import kotlinx.coroutines.*
 import java.io.File
@@ -34,17 +31,17 @@ import kotlin.coroutines.CoroutineContext
 class VideosFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-    lateinit var job: Job
+    private lateinit var job: Job
 
     private var mViewModel: VideosViewModel? = null
     var binding: VideosFragmentBinding? = null
 
-    lateinit var adapter: VideosAdapter
+    private lateinit var adapter: VideosAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = VideosFragmentBinding.inflate(inflater, container, false)
         binding!!.lifecycleOwner = this
 
@@ -62,11 +59,6 @@ class VideosFragment : Fragment(), CoroutineScope {
         mViewModel = ViewModelProvider(this).get(VideosViewModel::class.java)
     }
 
-    companion object {
-        fun newInstance(): VideosFragment {
-            return VideosFragment()
-        }
-    }
 
     fun getVideoItemClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
@@ -81,13 +73,15 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     fun getMoreImageViewClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
-            val modalBottomSheet = VideoItemModelBottomSheet(MainActivityViewModel.videos.value?.get(it)!!, VideoItemModelBottomSheet.OnClickListener {
-                deleteVideoItem(it)
-            })
+            val modalBottomSheet = VideoItemModelBottomSheet(
+                MainActivityViewModel.videos.value?.get(it)!!,
+                VideoItemModelBottomSheet.OnClickListener {
+                    deleteVideoItem(it)
+                })
             fragmentManager?.let { it1 ->
                 modalBottomSheet.show(
                     it1,
-                    VideoItemModelBottomSheet.TAG
+                    TAG
                 )
             }
         }
@@ -97,7 +91,7 @@ class VideosFragment : Fragment(), CoroutineScope {
         MainActivityViewModel.videos.observe(viewLifecycleOwner, {
             launch {
                 withContext(Dispatchers.Main) {
-                    adapter!!.submitList(MainActivityViewModel.videos.value?.toList())
+                    adapter.submitList(MainActivityViewModel.videos.value?.toList())
                 }
             }
         })
@@ -120,8 +114,8 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        if(MainActivityViewModel.isReadPermissionGranted.value!!) {
-            if(MainActivityViewModel.videos.value?.size == 0)
+        if (MainActivityViewModel.isReadPermissionGranted.value!!) {
+            if (MainActivityViewModel.videos.value?.size == 0)
                 updateVideoDatabase()
             else
                 adapter.submitList(MainActivityViewModel.videos.value?.toList())
@@ -150,13 +144,28 @@ class VideosFragment : Fragment(), CoroutineScope {
                 )
 
                 val folders = MainActivityViewModel.folders.value
-                if(folders != null && folders.size != 0) {
-                    for(folder in folders) {
-                        for(videoItem in folder.videoFiles) {
-                            if(video.videoId == videoItem.videoId) {
-                                folder.videoFiles.remove(videoItem)
-                                break
+
+                val pair = FolderVideoPair(File(video.path).parentFile.name, video.videoId)
+                MainActivityViewModel.toDeleteFolderVideoPair.add(pair)
+
+                if (folders != null && folders.size != 0) {
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            myloop@ for (pair in MainActivityViewModel.toDeleteFolderVideoPair) {
+                                for (folder in MainActivityViewModel.folders.value!!) {
+                                    if (pair.folderName.equals(folder.folderName)) {
+                                        for (videoItem in folder.videoFiles) {
+                                            if (videoItem.videoId == pair.videoId) {
+                                                folder.videoFiles.remove(videoItem)
+                                                continue@myloop
+                                            }
+                                        }
+                                    }
+                                }
                             }
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.toDeleteFolderVideoPair.clear()
                         }
                     }
                 }

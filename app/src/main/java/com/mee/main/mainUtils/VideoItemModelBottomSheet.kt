@@ -12,25 +12,19 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.jiajunhui.xapp.medialoader.MediaLoader
-import com.jiajunhui.xapp.medialoader.bean.VideoResult
-import com.jiajunhui.xapp.medialoader.callback.OnVideoLoaderCallBack
+import com.mee.main.bindVideoDate
+import com.mee.main.bindVideoNameTextView
+import com.mee.main.bindVideoPath
+import com.mee.main.bindVideoSize
 import com.mee.player.R
 import com.mee.player.databinding.FileInfoAlertDialogBinding
 import com.mee.player.databinding.VideoItemMoreBottomSheetBinding
-import com.CodeBoy.MediaFacer.mediaHolders.videoContent
-import com.anggrayudi.storage.file.DocumentFileCompat
-import com.anggrayudi.storage.media.MediaStoreCompat
-import com.anggrayudi.storage.media.MediaType
-import com.mee.main.*
-import com.mee.main.videos.VideosFragment
 
 
 class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnClickListener) : BottomSheetDialogFragment() {
