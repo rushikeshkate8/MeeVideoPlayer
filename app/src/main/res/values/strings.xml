@@ -25,7 +25,7 @@
     <string name="permission_dialog_negative_button">Exit App</string>
 
 
-<!--    Bottom Sheet Video Item-->
+    <!--    Bottom Sheet Video Item-->
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="file_info">File info</string>
@@ -38,7 +38,7 @@
 
     <string name="tap_again_to_exit_app">Tap again to exit app</string>
 
-<!--    File info alert dialog-->
+    <!--    File info alert dialog-->
     <string name="information">Information</string>
     <string name="title">Title</string>
     <string name="size">Size</string>
@@ -47,7 +47,7 @@
     <string name="date">Date</string>
     <string name="close">Close</string>
 
-<!--    Sorting -->
+    <!--    Sorting -->
     <string name="sort_by">Sort by</string>
     <string name="newest_date_first">Newest date first</string>
     <string name="oldest_date_first">Oldest date first</string>
@@ -55,5 +55,7 @@
     <string name="smallest_first">Smallest first</string>
     <string name="name_a_z"><![CDATA[Name A -> Z]]></string>
     <string name="name_z_a"><![CDATA[Name Z -> A]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -13,9 +13,10 @@ class MainActivityViewModel : ViewModel() {
 //
 //        private var _updateDatabase = MutableLiveData(false)
 
-        var isReadPermissionGranted: Boolean = false
+        var isReadPermissionGranted = MutableLiveData(false)
 
         val videos = MutableLiveData<MutableList<videoContent>>(mutableListOf())
+        val isVideosUpdated = MutableLiveData(false)
 
         val folders = MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())
         var isFoldersUpdated = MutableLiveData(false)

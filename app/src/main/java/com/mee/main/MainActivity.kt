@@ -13,13 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.CodeBoy.MediaFacer.MediaFacer
-import com.CodeBoy.MediaFacer.VideoGet
+import androidx.navigation.findNavController
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.mee.main.videos.VideosFragment
 import com.mee.player.R
 import com.mee.player.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
@@ -77,14 +77,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     }
 
-    fun updateVideoDatabase() {
-        launch {
-            MainActivityViewModel.videos.value = async(Dispatchers.IO) {
-                MediaFacer
-                    .withVideoContex(mActivity)
-                    .getAllVideoContent(VideoGet.externalContentUri)
-            }.await()
-        }
+//    fun updateVideoDatabase() {
+//        launch {
+//            MainActivityViewModel.videos.value = async(Dispatchers.IO) {
+//                MediaFacer
+//                    .withVideoContex(mActivity)
+//                    .getAllVideoContent(VideoGet.externalContentUri)
+//            }.await()
+//        }
 
 //        launch {
 //            withContext(Dispatchers.IO) {
@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 //            }
 //        }
 
-    }
 
     private fun requestPermissions() {
 
@@ -106,12 +105,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 report.grantedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
 
-                        MainActivityViewModel.isReadPermissionGranted = true
+                        MainActivityViewModel.isReadPermissionGranted.value = true
 
                         alertDialog?.dismiss()
                         alertDialog = null
 
-                        updateVideoDatabase()
+                        //updateVideoDatabase()
                         Toast.makeText(
                             this@MainActivity,
                             "Made by Rushikesh Kate",
@@ -124,7 +123,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 report.deniedPermissionResponses.forEach {
                     if (it.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
 
-                        MainActivityViewModel.isReadPermissionGranted = false
+                        MainActivityViewModel.isReadPermissionGranted.value = false
 
                         if (it.isPermanentlyDenied) {
                             simpleAlert(
@@ -218,14 +217,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 //    }
 
     override fun onBackPressed() {
-        if (viewModel?.isBackPressed!!)
+        if(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.backStackEntryCount != 0)
             super.onBackPressed()
         else {
-            Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
-            viewModel!!.isBackPressed = true
-            Handler(Looper.getMainLooper()).postDelayed(
-                { viewModel!!.isBackPressed = false }, 2000
-            )
+            if (viewModel?.isBackPressed!!)
+                super.onBackPressed()
+            else {
+                Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
+                viewModel!!.isBackPressed = true
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { viewModel!!.isBackPressed = false }, 2000
+                )
+            }
         }
     }
 

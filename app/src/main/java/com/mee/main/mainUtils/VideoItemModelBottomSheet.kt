@@ -33,10 +33,9 @@ import com.mee.main.*
 import com.mee.main.videos.VideosFragment
 
 
-class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment() {
+class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnClickListener) : BottomSheetDialogFragment() {
 
     lateinit var binding: VideoItemMoreBottomSheetBinding
-    lateinit var video: videoContent
 
 
     override fun onCreateView(
@@ -45,7 +44,6 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
         savedInstanceState: Bundle?
     ): View? {
 
-        video = MainActivityViewModel.videos.value?.get(position)!!
 
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
 
@@ -141,33 +139,34 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
 
 
 
-    fun deleteVideoItem() {
+//    fun deleteVideoItem() {
+//
+////        val contentResolver = activity?.contentResolver
+//        if(!fileExists(requireContext(), video.assetFileStringUri.toUri()))
+//            return
+//
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+//
+//
+//            val contentResolver = activity?.contentResolver
+//
+//            if (contentResolver != null) {
+//                val selectionArgsPdf = arrayOf<String>(video.videoName)
+//
+//                //DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
+//
+//                contentResolver.delete(
+//                   video.assetFileStringUri.toUri(), MediaStore.Files.FileColumns.DISPLAY_NAME + "=?", selectionArgsPdf
+//                )
+//
+//                MainActivityViewModel.videos.value!!.removeAt(position)
+//
+//            //val file = MediaStoreCompat.fromMediaId(requireContext(), MediaType.VIDEO, video.videoId)
+//                //MediaStoreCompat.fromFileName(requireContext(), MediaType.VIDEO, video.videoName)
+//
+//           MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
+//        }
 
-//        val contentResolver = activity?.contentResolver
-        if(!fileExists(requireContext(), video.assetFileStringUri.toUri()))
-            return
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
-
-            val contentResolver = activity?.contentResolver
-
-            if (contentResolver != null) {
-                val selectionArgsPdf = arrayOf<String>(video.videoName)
-
-                //DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
-
-                contentResolver.delete(
-                   video.assetFileStringUri.toUri(), MediaStore.Files.FileColumns.DISPLAY_NAME + "=?", selectionArgsPdf
-                )
-
-                MainActivityViewModel.videos.value!!.removeAt(position)
-
-            //val file = MediaStoreCompat.fromMediaId(requireContext(), MediaType.VIDEO, video.videoId)
-                //MediaStoreCompat.fromFileName(requireContext(), MediaType.VIDEO, video.videoName)
-
-           MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-        }
 
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
 //
@@ -184,8 +183,10 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
 //
 //                //updateDatabase()
 //            }
-        }
-    }
+//        }
+//    }
+
+    fun deleteVideoItem() = clickListener.OnClick(video)
 
     fun fileExists(context: Context, uri: Uri): Boolean {
         return if ("file" == uri.scheme) {
@@ -249,5 +250,9 @@ class VideoItemModelBottomSheet(val position: Int) : BottomSheetDialogFragment()
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    class OnClickListener(val clicklistener:(videoContent) -> Unit) {
+        fun OnClick(video: videoContent) = clicklistener(video)
     }
 }

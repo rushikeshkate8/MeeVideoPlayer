@@ -11,7 +11,7 @@ import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
 import com.mee.main.bindVideoCountTextView
 import com.mee.player.databinding.FolderItemBinding
 
-class FoldersAdapter :
+class FoldersAdapter(val clickListener: OnClickListener) :
     ListAdapter<videoFolderContent, FoldersAdapter.FolderViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
@@ -22,6 +22,7 @@ class FoldersAdapter :
         val folder = getItem(holder.absoluteAdapterPosition)
 
         holder.binding.folderTitleTextView.text = folder.folderName
+        holder.binding.folderItemRelativeLayout.setOnClickListener { clickListener.OnClick(holder.absoluteAdapterPosition) }
 
         bindVideoCountTextView(holder.binding.folderVideoCountTextView, folder.videoFiles.size)
     }
@@ -44,6 +45,9 @@ class FoldersAdapter :
         ): Boolean {
             return oldItem == newItem
         }
+    }
 
+    class OnClickListener(val clickListener: (position: Int) -> Unit) {
+        fun OnClick(position: Int) = clickListener(position)
     }
 }

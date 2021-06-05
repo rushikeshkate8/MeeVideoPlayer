@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.CodeBoy.MediaFacer.MediaFacer
 import com.CodeBoy.MediaFacer.VideoGet
+import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
 import com.mee.main.MainActivityViewModel
 import com.mee.player.R
 import com.mee.player.databinding.FoldersFragmentBinding
@@ -44,7 +47,9 @@ class FoldersFragment : Fragment(), CoroutineScope {
 
         mActivity = requireActivity()
 
-        adapter = FoldersAdapter()
+        adapter = FoldersAdapter(FoldersAdapter.OnClickListener {
+            findNavController().navigate(FoldersFragmentDirections.actionFoldersFragmentToFoldersVideosFragment(it))
+        })
         binding.folderItemsRecyclerView.adapter = adapter
 
         setUpObservers()
@@ -59,39 +64,36 @@ class FoldersFragment : Fragment(), CoroutineScope {
 
 
     fun updateFoldersDatabase() {
-        if (!MainActivityViewModel.isReadPermissionGranted)
+        if (!MainActivityViewModel.isReadPermissionGranted.value!!)
             return
 
         launch {
+            val foldersMutableList = MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())
+
             withContext(Dispatchers.IO) {
-                MainActivityViewModel.folders.postValue(
+                foldersMutableList.postValue(
                     MediaFacer
                         .withVideoContex(mActivity)
                         .getVideoFolders(VideoGet.externalContentUri)
                 )
             }
             withContext(Dispatchers.IO) {
-                for (item in MainActivityViewModel.folders.value!!) {
-                    item.setVideoFiles(
-                        MediaFacer.withVideoContex(mActivity)
-                            .getAllVideoContentByBucket_id(item.getBucket_id())
-                    )
+                for (item in foldersMutableList.value!!) {
+                    item.videoFiles = MediaFacer.withVideoContex(mActivity)
+                        .getAllVideoContentByBucket_id(item.getBucket_id())
                 }
             }
-        }.invokeOnCompletion {
-            MainActivityViewModel.isFoldersUpdated.value = true
+            MainActivityViewModel.folders.value = foldersMutableList.value
         }
     }
 
     fun setUpObservers() {
-        MainActivityViewModel.isFoldersUpdated.observe(viewLifecycleOwner, {
-            if(it) {
+        MainActivityViewModel.folders.observe(viewLifecycleOwner, {
                 launch {
                     withContext(Dispatchers.Main) {
                         adapter.submitList(MainActivityViewModel.folders.value!!.toList())
                     }
-                }.invokeOnCompletion { MainActivityViewModel.isFoldersUpdated.value = false }
-            }
+                }
         } )
     }
 
