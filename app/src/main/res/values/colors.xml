@@ -8,13 +8,12 @@
 <!--    <color name="color_background">@color/anti_flash_white</color>-->
     <color name="color_background">@color/white</color>
     <color name="color_surface">@color/white</color>
-    <color name="secondary_text_color">@color/slate_gray</color>
-    <color name="secondary_text_color_light">@color/slate_gray_light</color>
+    <color name="secondary_text_color">@color/slate_gray_light</color>
 
     <color name="view_separator">@color/gainsboro</color>
     <color name="color_primium">@color/violet</color>
     <color name="primary_icon_color">@color/slate_gray</color>
-    <color name="secondary_icon_color">@color/slate_gray_light</color>
+    <color name="secondary_icon_color">#E0E3E8</color>
     <color name="video_duratin_background_color">#99000000</color>
     <color name="ripple_default_color">#407E7E7E</color>
 
@@ -25,9 +24,16 @@
     <color name="alert_dialog_message">@color/secondary_text_color</color>
 <!--    <color name="alert_dialog_message">#8A000000</color>-->
 
+    <color name="action_icon_color">@color/primary_icon_color</color>
+
+    <color name="fast_scroll_thumb_inactive_color">@color/slate_gray</color>
+    <color name="fast_scroll_track_color">#4064668d</color>
+
+<!--    <color name="action_icon_color">@color/slate_gray</color>-->
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
+    <color name="eighty_seven_percent_white">#87FFFFFF</color>
 
     <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
@@ -36,6 +42,8 @@
     <color name="grey_550">#696969</color>
     <color name="grey_600">#616161</color>
     <color name="grey_800">#424242</color>
+
+    <color name="battleship_grey">#8F9092</color>
 
     <color name="royal_blue">#3930d8</color>
 
@@ -47,6 +55,7 @@
     <color name="violet_light">#CDDDF3</color>
 
     <color name="dodger_blue">#0556f3</color>
+    <color name="dodger_blue_primary_light">#990556f3</color>
     <color name="dodger_blue_light">#CDDDF3</color>
 
     <color name="midnightblue">#25265e</color>

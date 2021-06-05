@@ -23,6 +23,8 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorSurface">@color/white</item>
         <item name="alertDialogStyle">@style/AlertDialogStyle</item>
+        <item name="android:navigationBarColor">@color/color_background</item>
+        <item name="android:colorEdgeEffect">@color/slate_gray</item>
     </style>
 
     <style name="BottomNavigation">
