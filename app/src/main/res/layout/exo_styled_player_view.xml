@@ -25,8 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/color_primary"/>
+            android:layout_gravity="center"/>
 
         <TextView android:id="@id/exo_error_message"
             android:layout_width="wrap_content"
@@ -61,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
-        app:yt_backgroundCircleColor="@color/color_primary_light"
+        app:yt_backgroundCircleColor="@color/ui_controls_background"
         app:yt_playerView="@id/video_view" />
 
     <View android:id="@id/exo_controller_placeholder"

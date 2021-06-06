@@ -29,18 +29,18 @@
                 style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_surface"
+                android:background="@color/color_background"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:logo="@drawable/ic_baseline_play_circle_24"
+                app:logo="@drawable/ic_baseline_play_circle"
                 app:title="MeePlayer"
-                app:titleMarginStart="24dp"
                 app:titleTextAppearance="@style/Toolbar.TitleText">
 
                 <ImageButton
+                    android:id="@+id/video_fragment_menu_item"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="end"

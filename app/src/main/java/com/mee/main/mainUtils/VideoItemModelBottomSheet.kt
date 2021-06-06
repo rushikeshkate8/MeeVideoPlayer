@@ -41,8 +41,8 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
 
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) binding.deleteBottomSheet.visibility =
-            View.GONE
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) binding.deleteBottomSheet.visibility =
+//            View.GONE
 
         //binding.videoItem = video
         bindVideoNameTextView(binding.videoItemBottomSheetTitle, video.videoName)

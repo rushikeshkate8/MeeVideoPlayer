@@ -1,6 +1,7 @@
 package com.mee.main.folders
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,23 +96,28 @@ class FoldersFragment : Fragment(), CoroutineScope {
     fun setUpObservers() {
         MainActivityViewModel.folders.observe(viewLifecycleOwner, {
             launch {
-                withContext(Dispatchers.Default) {
-                    myloop@ for (pair in MainActivityViewModel.toDeleteFolderVideoPair) {
-                         for (folder in MainActivityViewModel.folders.value!!) {
-                            if (pair.folderName.equals(folder.folderName)) {
-                                for (videoItem in folder.videoFiles) {
-                                    if (videoItem.videoId == pair.videoId) {
-                                        folder.videoFiles.remove(videoItem)
-                                        continue@myloop
+                if (it.size > 0) {
+                    withContext(Dispatchers.Default) {
+                        myloop@ for (pair in MainActivityViewModel.toDeleteFolderVideoPair) {
+                            for (folder in MainActivityViewModel.folders.value!!) {
+                                if (pair.folderName.equals(folder.folderName)) {
+                                    for (videoItem in folder.videoFiles) {
+                                        if (videoItem.videoId == pair.videoId) {
+                                            folder.videoFiles.remove(videoItem)
+                                            continue@myloop
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    withContext(Dispatchers.Default) {
+                        MainActivityViewModel.toDeleteFolderVideoPair.clear()
+                    }
                 }
+
                 withContext(Dispatchers.Main) {
                     adapter.submitList(MainActivityViewModel.folders.value!!.toList())
-                    MainActivityViewModel.toDeleteFolderVideoPair.clear()
                 }
             }
         })
@@ -129,5 +135,10 @@ class FoldersFragment : Fragment(), CoroutineScope {
         fun newInstance(): FoldersFragment {
             return FoldersFragment()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
     }
 }

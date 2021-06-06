@@ -6,13 +6,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.afollestad.materialdialogs.MaterialDialog
+import com.anggrayudi.storage.SimpleStorage
+import com.anggrayudi.storage.callback.StorageAccessCallback
+import com.anggrayudi.storage.file.StorageType
+import com.anggrayudi.storage.file.storageId
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -109,11 +117,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         alertDialog = null
 
                         //updateVideoDatabase()
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Made by Rushikesh Kate",
-                            Toast.LENGTH_LONG
-                        ).show()
                         return
                     }
                 }
