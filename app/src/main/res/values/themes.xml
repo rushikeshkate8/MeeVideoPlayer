@@ -26,6 +26,12 @@
         <item name="android:colorEdgeEffect">@color/fast_scroll_thumb_inactive_color</item>
     </style>
 
+    <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/color_background</item>
+        <item name="android:statusBarColor">@color/color_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="BottomNavigation">
         <item name="android:background">@color/color_background</item>
     </style>
