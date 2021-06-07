@@ -49,6 +49,8 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         get() = Dispatchers.Main + job
     lateinit var job: Job
 
+    lateinit var mContext: Context
+
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentFoldersVideosBinding
 
@@ -137,7 +139,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     fun getMoreImageViewClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
-            val modalBottomSheet = VideoItemModelBottomSheet(
+            val modalBottomSheet = VideoItemModelBottomSheet.newInstance(
                 MainActivityViewModel.folders.value?.get(args.position)?.videoFiles?.get(it)!!,
                 VideoItemModelBottomSheet.OnClickListener {
                     deleteVideoItem(mutableListOf(it))
@@ -169,10 +171,18 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     fun deleteVideoItem(videos: MutableList<videoContent>) {
 
-//        for(video in videos) {
-//            if (!fileExists(requireContext(), video.assetFileStringUri.toUri()))
-//                videos.remove(video)
-//        }
+        for(video in videos) {
+            if (!fileExists(mContext, video.assetFileStringUri.toUri())) {
+                videos.remove(video)
+                MainActivityViewModel.folders.value?.get(args.position)?.videoFiles?.remove(video)
+            }
+        }
+
+        if(videos.isEmpty()) {
+            submitNewFiles()
+            return
+        }
+
 
 
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -195,10 +205,10 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
         when (deviceVersionCode) {
             in 21..29 -> {
-                viewModel.deleteMedia(videos, requireContext())
+                viewModel.deleteMedia(videos, mContext)
                 deleteSync()
             }
-            else -> viewModel.deleteMedia(videos, requireContext())
+            else -> viewModel.deleteMedia(videos, mContext)
         }
 
 
@@ -210,11 +220,11 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     fun fileExists(context: Context, uri: Uri): Boolean {
         return if ("file" == uri.scheme) {
-            val file = DocumentFile.fromSingleUri(requireContext(), uri)
+            val file = DocumentFile.fromSingleUri(mContext, uri)
             file!!.exists()
         } else {
             try {
-                val inputStream = context.contentResolver.openInputStream(uri)
+                val inputStream = mContext.contentResolver.openInputStream(uri)
                 inputStream!!.close()
                 true
             } catch (e: Exception) {
@@ -259,8 +269,11 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        job.cancel()
+    fun submitNewFiles() {
+        adapter.submitList(MainActivityViewModel.folders.value?.get(args.position)?.videoFiles)
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
 }

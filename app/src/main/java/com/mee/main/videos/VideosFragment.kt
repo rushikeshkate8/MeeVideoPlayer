@@ -38,6 +38,8 @@ class VideosFragment : Fragment(), CoroutineScope {
         get() = Dispatchers.Main + job
     private lateinit var job: Job
 
+    private lateinit var mContext: Context
+
     private var mViewModel: VideosViewModel? = null
     var binding: VideosFragmentBinding? = null
 
@@ -90,7 +92,7 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     fun getMoreImageViewClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
-            val modalBottomSheet = VideoItemModelBottomSheet(
+            val modalBottomSheet = VideoItemModelBottomSheet.newInstance(
                 MainActivityViewModel.videos.value?.get(it)!!,
                 VideoItemModelBottomSheet.OnClickListener {
                     deleteVideoItem(mutableListOf(it))
@@ -148,8 +150,16 @@ class VideosFragment : Fragment(), CoroutineScope {
     fun deleteVideoItem(videos: MutableList<videoContent>) {
 
         for(video in videos) {
-            if (!fileExists(requireContext(), video.assetFileStringUri.toUri()))
-                 videos.remove(video)
+            if (!fileExists(mContext, video.assetFileStringUri.toUri())) {
+                videos.remove(video)
+                MainActivityViewModel.videos.value?.remove(video)
+            }
+
+        }
+
+        if(videos.isEmpty()) {
+            submitNewFiles()
+            return
         }
 
 
@@ -173,13 +183,11 @@ class VideosFragment : Fragment(), CoroutineScope {
 
                 when(deviceVersionCode) {
                      in 21 .. 29 ->  {
-                         mViewModel?.deleteMedia(videos, requireContext())
+                         mViewModel?.deleteMedia(videos, mContext)
                          deleteSync(mViewModel?.videosToDelete!!)
                      }
-                    else -> mViewModel?.deleteMedia(videos, requireContext())
+                    else -> mViewModel?.deleteMedia(videos, mContext)
                 }
-
-
 
                 //val file = MediaStoreCompat.fromMediaId(requireContext(), MediaType.VIDEO, video.videoId)
                 //MediaStoreCompat.fromFileName(requireContext(), MediaType.VIDEO, video.videoName)
@@ -189,22 +197,17 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     fun fileExists(context: Context, uri: Uri): Boolean {
         return if ("file" == uri.scheme) {
-            val file = DocumentFile.fromSingleUri(requireContext(), uri)
+            val file = DocumentFile.fromSingleUri(mContext, uri)
             file!!.exists()
         } else {
             try {
-                val inputStream = context.contentResolver.openInputStream(uri)
+                val inputStream = mContext.contentResolver.openInputStream(uri)
                 inputStream!!.close()
                 true
             } catch (e: Exception) {
                 false
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        job.cancel()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -252,5 +255,20 @@ class VideosFragment : Fragment(), CoroutineScope {
 
         if(mViewModel?.videosToDelete?.size!! > 0)
             mViewModel?.videosToDelete?.clear()
+    }
+
+    fun submitNewFiles() {
+        adapter.submitList(MainActivityViewModel.videos.value)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
     }
 }

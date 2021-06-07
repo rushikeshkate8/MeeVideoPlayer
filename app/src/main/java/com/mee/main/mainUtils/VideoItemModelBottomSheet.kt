@@ -27,7 +27,8 @@ import com.mee.player.databinding.FileInfoAlertDialogBinding
 import com.mee.player.databinding.VideoItemMoreBottomSheetBinding
 
 
-class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnClickListener) : BottomSheetDialogFragment() {
+class VideoItemModelBottomSheet() :
+    BottomSheetDialogFragment() {
 
     lateinit var binding: VideoItemMoreBottomSheetBinding
 
@@ -38,14 +39,13 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
         savedInstanceState: Bundle?
     ): View? {
 
-
         binding = VideoItemMoreBottomSheetBinding.inflate(inflater)
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) binding.deleteBottomSheet.visibility =
 //            View.GONE
 
         //binding.videoItem = video
-        bindVideoNameTextView(binding.videoItemBottomSheetTitle, video.videoName)
+        bindVideoNameTextView(binding.videoItemBottomSheetTitle, mVideo.videoName)
 
         binding.lifecycleOwner = this
 
@@ -60,6 +60,17 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
 
     companion object {
         const val TAG = "ModalBottomSheet"
+
+        lateinit var mVideo: videoContent
+        lateinit var mClickListener: OnClickListener
+
+        @JvmStatic
+        fun newInstance(video: videoContent, clickListener: OnClickListener) =
+            VideoItemModelBottomSheet().apply {
+                mVideo = video
+                mClickListener = clickListener
+            }
+
     }
 
 
@@ -67,7 +78,7 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
         binding.shareBottomSheet.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "video/*"
-            intent.putExtra(Intent.EXTRA_STREAM, video.path.toUri())
+            intent.putExtra(Intent.EXTRA_STREAM, mVideo.path.toUri())
             ActivityCompat.startActivity(requireContext(), intent, null)
             dismiss()
         }
@@ -102,11 +113,12 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
         binding.fileInfoBottomSheet.setOnClickListener {
             val binding = FileInfoAlertDialogBinding.inflate(LayoutInflater.from(context))
             ///binding.videoItem = video
-            bindVideoDate(binding.fileInfoAlertDialogDate, video.date_added)
-            bindVideoNameTextView(binding.fileInfoAlertDialogVideoName, video.videoName)
-            bindVideoPath(binding.fileInfoAlertDialogPath, video.path)
-            bindVideoSize(binding.fileInfoAlertDialogSize, video.videoSize)
-            binding.fileInfoAlertDialogFormat.text = requireActivity().contentResolver.getType(video.assetFileStringUri.toUri())
+            bindVideoDate(binding.fileInfoAlertDialogDate, mVideo.date_added)
+            bindVideoNameTextView(binding.fileInfoAlertDialogVideoName, mVideo.videoName)
+            bindVideoPath(binding.fileInfoAlertDialogPath, mVideo.path)
+            bindVideoSize(binding.fileInfoAlertDialogSize, mVideo.videoSize)
+            binding.fileInfoAlertDialogFormat.text =
+                requireActivity().contentResolver.getType(mVideo.assetFileStringUri.toUri())
 
 
             val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
@@ -130,7 +142,6 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
             dismiss()
         }
     }
-
 
 
 //    fun deleteVideoItem() {
@@ -180,7 +191,7 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
 //        }
 //    }
 
-    fun deleteVideoItem() = clickListener.OnClick(video)
+    fun deleteVideoItem() = mClickListener.OnClick(mVideo)
 
     fun fileExists(context: Context, uri: Uri): Boolean {
         return if ("file" == uri.scheme) {
@@ -242,11 +253,9 @@ class VideoItemModelBottomSheet(val video: videoContent, val clickListener: OnCl
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    class OnClickListener(val clicklistener:(videoContent) -> Unit) {
+    class OnClickListener(val clicklistener: (videoContent) -> Unit) {
         fun OnClick(video: videoContent) = clicklistener(video)
     }
+
+
 }
