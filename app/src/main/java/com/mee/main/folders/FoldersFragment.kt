@@ -1,6 +1,7 @@
 package com.mee.main.folders
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,11 @@ class FoldersFragment : Fragment(), CoroutineScope {
         mActivity = requireActivity()
 
         adapter = FoldersAdapter(FoldersAdapter.OnClickListener {
-            findNavController().navigate(FoldersFragmentDirections.actionFoldersFragmentToFoldersVideosFragment(it))
+            findNavController().navigate(
+                FoldersFragmentDirections.actionFoldersFragmentToFoldersVideosFragment(
+                    it
+                )
+            )
         })
         binding.folderItemsRecyclerView.adapter = adapter
 
@@ -68,7 +73,8 @@ class FoldersFragment : Fragment(), CoroutineScope {
             return
 
         launch {
-            val foldersMutableList = MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())
+            val foldersMutableList =
+                MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())
 
             withContext(Dispatchers.IO) {
                 foldersMutableList.postValue(
@@ -89,17 +95,37 @@ class FoldersFragment : Fragment(), CoroutineScope {
 
     fun setUpObservers() {
         MainActivityViewModel.folders.observe(viewLifecycleOwner, {
-                launch {
-                    withContext(Dispatchers.Main) {
-                        adapter.submitList(MainActivityViewModel.folders.value!!.toList())
+            launch {
+                if (it.size > 0) {
+                    withContext(Dispatchers.Default) {
+                        myloop@ for (pair in MainActivityViewModel.toDeleteFolderVideoPair) {
+                            for (folder in MainActivityViewModel.folders.value!!) {
+                                if (pair.folderName.equals(folder.folderName)) {
+                                    for (videoItem in folder.videoFiles) {
+                                        if (videoItem.videoId == pair.videoId) {
+                                            folder.videoFiles.remove(videoItem)
+                                            continue@myloop
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    withContext(Dispatchers.Default) {
+                        MainActivityViewModel.toDeleteFolderVideoPair.clear()
                     }
                 }
-        } )
+
+                withContext(Dispatchers.Main) {
+                    adapter.submitList(MainActivityViewModel.folders.value!!.toList())
+                }
+            }
+        })
     }
 
     override fun onStart() {
         super.onStart()
-        if(MainActivityViewModel.folders.value!!.size == 0)
+        if (MainActivityViewModel.folders.value!!.size == 0)
             updateFoldersDatabase()
         else
             adapter.submitList(MainActivityViewModel.folders.value)
@@ -109,5 +135,10 @@ class FoldersFragment : Fragment(), CoroutineScope {
         fun newInstance(): FoldersFragment {
             return FoldersFragment()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
     }
 }

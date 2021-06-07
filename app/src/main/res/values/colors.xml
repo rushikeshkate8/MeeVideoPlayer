@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <color name="text_color_primary">@color/midnightblue</color>
-    <color name="color_primary">@color/dodger_blue</color>
-    <color name="color_primary_light">@color/dodger_blue_light</color>
+    <color name="text_color_primary">@color/theme1_text_primary</color>
+    <color name="color_primary">@color/theme1_primary</color>
     <color name="color_on_primary">@color/white</color>
 <!--    <color name="color_background">@color/anti_flash_white</color>-->
-    <color name="color_background">@color/white</color>
-    <color name="color_surface">@color/white</color>
-    <color name="secondary_text_color">@color/slate_gray</color>
-    <color name="secondary_text_color_light">@color/slate_gray_light</color>
+    <color name="color_background">@color/theme1_background</color>
+    <color name="color_surface">@color/theme1_surface</color>
+    <color name="secondary_text_color">@color/theme1_text_tertiary</color>
 
     <color name="view_separator">@color/gainsboro</color>
     <color name="color_primium">@color/violet</color>
     <color name="primary_icon_color">@color/slate_gray</color>
-    <color name="secondary_icon_color">@color/slate_gray_light</color>
     <color name="video_duratin_background_color">#99000000</color>
-    <color name="ripple_default_color">#407E7E7E</color>
+    <color name="ripple_default_color">#207E7E7E</color>
+<!--    <color name="ripple_default_color">#407E7E7E</color>-->
 
     <color name="exo_bottom_bar_background">#88000000</color>
     <color name="exo_black_opacity_30" tools:keep="@color/exo_black_opacity_30">#00000000</color>
+    <color name="ui_controls_background">#98000000</color>
 
     <color name="alert_dialog_title">@color/text_color_primary</color>
     <color name="alert_dialog_message">@color/secondary_text_color</color>
 <!--    <color name="alert_dialog_message">#8A000000</color>-->
 
+    <color name="bottom_nav_icon_unselected_color">#636363</color>
+    <color name="more_menu_color">@color/slate_gray_light</color>
+    <color name="action_button_color">@color/slate_gray</color>
+
+    <color name="fast_scroll_thumb_inactive_color">@color/slate_gray</color>
+    <color name="fast_scroll_track_color">#4064668d</color>
+
+<!--    <color name="action_icon_color">@color/slate_gray</color>-->
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
+    <color name="eighty_seven_percent_white">#87FFFFFF</color>
+
+    <!--  #1 Dark theme color set-->
+    <color name="theme1_background">#FFFFFF</color>
+    <color name="theme1_primary">#0D6DDB</color>
+    <color name="theme1_surface">#EFF0F5</color>
+    <color name="deep_sky_blue_folder_color_1">#84BEFE</color>
+    <color name="theme1_text_primary">#FF050505</color>
+    <color name="theme1_text_tertiary">#FF6A6D7C</color>
+
+
+    <!--  #2 Dark theme color set-->
+    <color name="black_background">#0E0E0E</color>
+    <color name="arsenic_surface">#404040</color>
 
     <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
@@ -36,17 +57,24 @@
     <color name="grey_550">#696969</color>
     <color name="grey_600">#616161</color>
     <color name="grey_800">#424242</color>
+    <color name="grey_850">#303030</color>
+    <color name="grey_900">#212121</color>
+
+    <color name="battleship_grey">#8F9092</color>
+    <color name="arsenic">#333333</color>
 
     <color name="royal_blue">#3930d8</color>
+    <color name="gradus_blue">#337CFF</color>
+
 
 <!--    <color name="violet">#7C4CFE</color>-->
 <!--    <color name="violet_light">#807C4CFE</color>-->
 
-    <!--    Programiz colors-->
     <color name="violet">#760FEE</color>
     <color name="violet_light">#CDDDF3</color>
 
     <color name="dodger_blue">#0556f3</color>
+    <color name="dodger_blue_primary_light">#990556f3</color>
     <color name="dodger_blue_light">#CDDDF3</color>
 
     <color name="midnightblue">#25265e</color>
@@ -56,7 +84,7 @@
     <color name="slate_gray_light">#9964668d</color>
 
 
-<!--    RetroMusic Colors-->
+
 <!--    <color name="window_color">@color/md_white_1000</color>-->
 <!--    <color name="window_color_light">@color/md_white_1000</color>-->
     <color name="window_color_dark">@android:color/black</color>

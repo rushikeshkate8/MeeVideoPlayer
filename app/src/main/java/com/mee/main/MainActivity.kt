@@ -6,20 +6,26 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
+import com.anggrayudi.storage.SimpleStorage
+import com.anggrayudi.storage.callback.StorageAccessCallback
+import com.anggrayudi.storage.file.StorageType
+import com.anggrayudi.storage.file.storageId
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.mee.main.videos.VideosFragment
 import com.mee.player.R
 import com.mee.player.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
@@ -53,6 +59,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         setUpBottomNavigationBar()
 
+        Toast.makeText(this, "Developed by Rushikesh Kate", Toast.LENGTH_LONG).show()
+
         //setUpObservers()
     }
 
@@ -64,12 +72,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 R.id.folders_menu_item -> Navigation.findNavController(
                     this@MainActivity,
                     R.id.nav_host_fragment
-                ).apply { popBackStack() }.navigate(R.id.folders_fragment)
+                ).apply { popBackStack(R.id.videos_Fragment, true) }.navigate(R.id.folders_fragment)
                 R.id.videos_menu_item -> {
                     Navigation.findNavController(
                         this@MainActivity,
                         R.id.nav_host_fragment
-                    ).apply { popBackStack() }.navigate(R.id.videos_Fragment)
+                    ).apply { popBackStack(R.id.folders_fragment, true) }.navigate(R.id.videos_Fragment)
                 }
             }
 
@@ -111,11 +119,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         alertDialog = null
 
                         //updateVideoDatabase()
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Made by Rushikesh Kate",
-                            Toast.LENGTH_LONG
-                        ).show()
                         return
                     }
                 }

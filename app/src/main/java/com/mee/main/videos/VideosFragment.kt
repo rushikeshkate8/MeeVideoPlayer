@@ -1,28 +1,29 @@
 package com.mee.main.videos
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.CodeBoy.MediaFacer.MediaFacer
 import com.CodeBoy.MediaFacer.VideoGet
-import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
+import com.google.android.material.snackbar.Snackbar
+import com.mee.FileOperations
 import com.mee.main.MainActivityViewModel
+import com.mee.main.mainUtils.FolderVideoPair
 import com.mee.main.mainUtils.VideoItemModelBottomSheet
+import com.mee.main.mainUtils.VideoItemModelBottomSheet.Companion.TAG
 import com.mee.player.PlayerActivity
 import com.mee.player.R
 import com.mee.player.databinding.VideosFragmentBinding
@@ -30,21 +31,24 @@ import kotlinx.coroutines.*
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
+private val REQUEST_CODE_DELETE = 100
 
 class VideosFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-    lateinit var job: Job
+    private lateinit var job: Job
+
+    private lateinit var mContext: Context
 
     private var mViewModel: VideosViewModel? = null
     var binding: VideosFragmentBinding? = null
 
-    lateinit var adapter: VideosAdapter
+    private lateinit var adapter: VideosAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = VideosFragmentBinding.inflate(inflater, container, false)
         binding!!.lifecycleOwner = this
 
@@ -54,6 +58,18 @@ class VideosFragment : Fragment(), CoroutineScope {
 
         binding!!.videoItemsRecyclerView.adapter = adapter
 
+        binding!!.videoFragmentMenuItem.setOnClickListener {
+            Snackbar.make(
+                binding!!.root,
+                "This app is under development \n - Rushikesh Kate",
+                15000
+            ).setAction("OK", {})
+                .setBackgroundTint(resources.getColor(R.color.color_surface, null))
+                .setTextColor(resources.getColor(R.color.text_color_primary, null))
+                .setActionTextColor(resources.getColor(R.color.color_primary, null))
+                .show()
+        }
+
         return binding!!.root
     }
 
@@ -62,11 +78,6 @@ class VideosFragment : Fragment(), CoroutineScope {
         mViewModel = ViewModelProvider(this).get(VideosViewModel::class.java)
     }
 
-    companion object {
-        fun newInstance(): VideosFragment {
-            return VideosFragment()
-        }
-    }
 
     fun getVideoItemClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
@@ -81,13 +92,15 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     fun getMoreImageViewClickListener(): VideosAdapter.OnClickListener {
         return VideosAdapter.OnClickListener {
-            val modalBottomSheet = VideoItemModelBottomSheet(MainActivityViewModel.videos.value?.get(it)!!, VideoItemModelBottomSheet.OnClickListener {
-                deleteVideoItem(it)
-            })
+            val modalBottomSheet = VideoItemModelBottomSheet.newInstance(
+                MainActivityViewModel.videos.value?.get(it)!!,
+                VideoItemModelBottomSheet.OnClickListener {
+                    deleteVideoItem(mutableListOf(it))
+                })
             fragmentManager?.let { it1 ->
                 modalBottomSheet.show(
                     it1,
-                    VideoItemModelBottomSheet.TAG
+                    TAG
                 )
             }
         }
@@ -97,8 +110,14 @@ class VideosFragment : Fragment(), CoroutineScope {
         MainActivityViewModel.videos.observe(viewLifecycleOwner, {
             launch {
                 withContext(Dispatchers.Main) {
-                    adapter!!.submitList(MainActivityViewModel.videos.value?.toList())
+                    adapter.submitList(MainActivityViewModel.videos.value?.toList())
                 }
+            }
+        })
+        mViewModel?.intentSender?.observe(viewLifecycleOwner, {
+            if(it != null)  {
+                startIntentSenderForResult(it, REQUEST_CODE_DELETE, null, 0, 0, 0, null)
+                mViewModel!!.intentSender.value = null
             }
         })
     }
@@ -120,64 +139,69 @@ class VideosFragment : Fragment(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        if(MainActivityViewModel.isReadPermissionGranted.value!!) {
-            if(MainActivityViewModel.videos.value?.size == 0)
+        if (MainActivityViewModel.isReadPermissionGranted.value!!) {
+            if (MainActivityViewModel.videos.value?.size == 0)
                 updateVideoDatabase()
             else
                 adapter.submitList(MainActivityViewModel.videos.value?.toList())
         }
     }
 
-    fun deleteVideoItem(video: videoContent) {
+    fun deleteVideoItem(videos: MutableList<videoContent>) {
 
-        if (!fileExists(requireContext(), video.assetFileStringUri.toUri()))
-            return
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-
-
-            val contentResolver = activity?.contentResolver
-
-            if (contentResolver != null) {
-                val selectionArgsPdf = arrayOf<String>(video.videoName)
-
-                //DirectoryFileObserver(video.path.substring(0, video.path.lastIndexOf("/"))).startWatching()
-
-                contentResolver.delete(
-                    video.assetFileStringUri.toUri(),
-                    MediaStore.Files.FileColumns.DISPLAY_NAME + "=?",
-                    selectionArgsPdf
-                )
-
-                val folders = MainActivityViewModel.folders.value
-                if(folders != null && folders.size != 0) {
-                    for(folder in folders) {
-                        for(videoItem in folder.videoFiles) {
-                            if(video.videoId == videoItem.videoId) {
-                                folder.videoFiles.remove(videoItem)
-                                break
-                            }
-                        }
-                    }
-                }
-
+        for(video in videos) {
+            if (!fileExists(mContext, video.assetFileStringUri.toUri())) {
+                videos.remove(video)
                 MainActivityViewModel.videos.value?.remove(video)
+            }
+
+        }
+
+        if(videos.isEmpty()) {
+            submitNewFiles()
+            return
+        }
+
+
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+//
+//
+//            val contentResolver = activity?.contentResolver
+//
+//            if (contentResolver != null) {
+//                val selectionArgsPdf = arrayOf<String>(video.videoName)
+//
+//                contentResolver.delete(
+//                    video.assetFileStringUri.toUri(),
+//                    MediaStore.Files.FileColumns.DISPLAY_NAME + "=?",
+//                    selectionArgsPdf
+//                )
+
+                mViewModel?.videosToDelete = videos.toMutableList()
+
+                val deviceVersionCode = Build.VERSION.SDK_INT
+
+                when(deviceVersionCode) {
+                     in 21 .. 29 ->  {
+                         mViewModel?.deleteMedia(videos, mContext)
+                         deleteSync(mViewModel?.videosToDelete!!)
+                     }
+                    else -> mViewModel?.deleteMedia(videos, mContext)
+                }
 
                 //val file = MediaStoreCompat.fromMediaId(requireContext(), MediaType.VIDEO, video.videoId)
                 //MediaStoreCompat.fromFileName(requireContext(), MediaType.VIDEO, video.videoName)
-
-                MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-            }
-        }
+            //}
+        //}
     }
 
     fun fileExists(context: Context, uri: Uri): Boolean {
         return if ("file" == uri.scheme) {
-            val file = DocumentFile.fromSingleUri(requireContext(), uri)
+            val file = DocumentFile.fromSingleUri(mContext, uri)
             file!!.exists()
         } else {
             try {
-                val inputStream = context.contentResolver.openInputStream(uri)
+                val inputStream = mContext.contentResolver.openInputStream(uri)
                 inputStream!!.close()
                 true
             } catch (e: Exception) {
@@ -186,4 +210,65 @@ class VideosFragment : Fragment(), CoroutineScope {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+            when(requestCode) {
+                REQUEST_CODE_DELETE -> deleteSync(mViewModel?.videosToDelete!!)
+            }
+    }
+
+    fun deleteSync(videos: List<videoContent>) {
+        val folders = MainActivityViewModel.folders.value
+
+        for(video in videos) {
+            val mPair = FolderVideoPair(File(video.path).parentFile.name, video.videoId)
+            MainActivityViewModel.toDeleteFolderVideoPair.add(mPair)
+        }
+
+        if (folders != null && folders.size != 0) {
+            launch {
+                withContext(Dispatchers.Default) {
+                    myloop@ for (pair in MainActivityViewModel.toDeleteFolderVideoPair) {
+                        for (folder in MainActivityViewModel.folders.value!!) {
+                            if (pair.folderName.equals(folder.folderName)) {
+                                for (videoItem in folder.videoFiles) {
+                                    if (videoItem.videoId == pair.videoId) {
+                                        folder.videoFiles.remove(videoItem)
+                                        continue@myloop
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                withContext(Dispatchers.Default) {
+                    MainActivityViewModel.toDeleteFolderVideoPair.clear()
+                }
+            }
+        }
+
+        for(video in videos) {
+            MainActivityViewModel.videos.value?.remove(video)
+        }
+
+        MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
+
+        if(mViewModel?.videosToDelete?.size!! > 0)
+            mViewModel?.videosToDelete?.clear()
+    }
+
+    fun submitNewFiles() {
+        adapter.submitList(MainActivityViewModel.videos.value)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
+    }
 }

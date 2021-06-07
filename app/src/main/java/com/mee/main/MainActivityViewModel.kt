@@ -1,11 +1,16 @@
 package com.mee.main
 
-import androidx.lifecycle.LiveData
+import android.app.Application
+import android.net.Uri
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
-import com.jiajunhui.xapp.medialoader.bean.VideoResult
+import com.mee.FileOperations
+import com.mee.main.mainUtils.FolderVideoPair
+import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
     companion object {
@@ -20,6 +25,8 @@ class MainActivityViewModel : ViewModel() {
 
         val folders = MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())
         var isFoldersUpdated = MutableLiveData(false)
+
+        val toDeleteFolderVideoPair = mutableListOf<FolderVideoPair>()
 
 //        val videos: LiveData<ArrayList<videoContent>>
 //            get() = _videos

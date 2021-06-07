@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/secondary_text_color_light"
+                android:textColor="@color/secondary_text_color"
                 android:textSize="@dimen/secondary_small_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,8 @@
             android:layout_centerVertical="true"
             android:background="@drawable/ripple_circular"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />
+            app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24"
+            app:tint="@color/more_menu_color" />
     </RelativeLayout>
 
 </layout>
