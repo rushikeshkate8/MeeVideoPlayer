@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.mee.main.MainActivity
+import com.mee.ui.main.MainActivity
 import com.mee.player.R
 
 class SplashScreenActivity : AppCompatActivity() {

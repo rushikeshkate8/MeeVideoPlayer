@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/sort_by"
-         android:icon="@drawable/video_item_ic_baseline_more_vert_24"
-        >
+    <item
+        android:icon="@drawable/video_item_ic_baseline_more_vert_24"
+        android:title="@string/sort_by">
         <menu>
-            <item android:title="@string/newest_date_first"/>
-            <item android:title="@string/oldest_date_first"/>
-            <item android:title="@string/largest_first"/>
-            <item android:title="@string/smallest_first"/>
-            <item android:title="@string/name_a_z"/>
-            <item android:title="@string/name_z_a"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_by_newest_date_first_menu_item"
+                    android:title="@string/newest_date_first" />
+                <item
+                    android:id="@+id/sort_by_oldest_date_first_menu_item"
+                    android:title="@string/oldest_date_first" />
+                <item
+                    android:id="@+id/sort_by_largest_first_menu_item"
+                    android:title="@string/largest_first" />
+                <item
+                    android:id="@+id/sort_by_smallest_first_menu_item"
+                    android:title="@string/smallest_first" />
+                <item
+                    android:id="@+id/sort_by_name_a_to_z_menu_item"
+                    android:title="@string/name_a_z" />
+                <item
+                    android:id="@+id/sort_by_name_z_to_a_menu_item"
+                    android:title="@string/name_z_a" />
+            </group>
         </menu>
     </item>
 </menu>

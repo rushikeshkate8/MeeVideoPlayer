@@ -6,11 +6,11 @@
     app:startDestination="@id/videos_Fragment">
     <fragment
         android:id="@+id/videos_Fragment"
-        android:name="com.mee.main.videos.VideosFragment"
+        android:name="com.mee.ui.main.videos.VideosFragment"
         android:label="Videos_Fragment" />
     <fragment
         android:id="@+id/folders_fragment"
-        android:name="com.mee.main.folders.FoldersFragment"
+        android:name="com.mee.ui.main.folders.FoldersFragment"
         android:label="folders_fragment"
         tools:layout="@layout/folders_fragment" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/foldersVideosFragment"
-        android:name="com.mee.main.folders.foldersVideos.FoldersVideosFragment"
+        android:name="com.mee.ui.main.folders.foldersVideos.FoldersVideosFragment"
         android:label="FoldersVideosFragment" >
         <argument
             android:name="position"

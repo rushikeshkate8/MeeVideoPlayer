@@ -1,0 +1,56 @@
+package com.mee.ui.main.videos
+
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.mee.ui.main.videos.VideosAdapter.VideoItemViewHolder
+import com.mee.player.databinding.VideoItemBinding
+import com.CodeBoy.MediaFacer.mediaHolders.videoContent
+import com.mee.ui.main.bindImage
+import com.mee.ui.main.bindVideoNameTextView
+import com.mee.ui.main.bindVideoDurationTextView
+import com.mee.ui.main.bindVideoSize
+
+class VideosAdapter(
+    val videoItemClickListener: OnClickListener,
+    val moreImageViewClickListener: OnClickListener
+) : ListAdapter<videoContent, VideoItemViewHolder>(DiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemViewHolder {
+        return VideoItemViewHolder(VideoItemBinding.inflate(LayoutInflater.from(parent.context)))
+    }
+
+    override fun onBindViewHolder(holder: VideoItemViewHolder, position: Int) {
+        val video = getItem(holder.absoluteAdapterPosition)
+
+        bindVideoNameTextView(holder.binding.videoTitleTextView, video.videoName)
+        bindImage(holder.binding.videoThumbnailImageView, video.assetFileStringUri.toUri())
+        bindVideoDurationTextView(holder.binding.videoDurationTextView, video.videoDuration)
+        bindVideoSize(holder.binding.videoSizeTextView, video.videoSize)
+
+        holder.binding.moreMenuItemImageView.setOnClickListener {moreImageViewClickListener.OnClick(holder.absoluteAdapterPosition)}
+        holder.binding.videoItemRelativeLayout.setOnClickListener {videoItemClickListener.OnClick(holder.absoluteAdapterPosition)}
+    }
+
+    class VideoItemViewHolder(var binding: VideoItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    class DiffCallback : DiffUtil.ItemCallback<videoContent>() {
+        override fun areItemsTheSame(oldItem: videoContent, newItem: videoContent): Boolean {
+            return oldItem.videoId == newItem.videoId
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: videoContent, newItem: videoContent): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    class OnClickListener(val clickListener: (position: Int) -> Unit) {
+        fun OnClick(position: Int) = clickListener(position)
+    }
+}
+

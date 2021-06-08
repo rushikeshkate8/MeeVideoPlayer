@@ -21,7 +21,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:colorBackground">@color/color_background</item>
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="colorSurface">@color/theme1_surface</item>
         <item name="alertDialogStyle">@style/AlertDialogStyle</item>
         <item name="android:colorEdgeEffect">@color/fast_scroll_thumb_inactive_color</item>
     </style>
@@ -56,7 +56,7 @@
         <item name="android:background">@drawable/bottom_sheet_layout_bg</item>
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- android:textColorPrimary is the color of the title text in the Toolbar  -->
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <!-- actionMenuTextColor is the color of the text of action (menu) items  -->
@@ -90,5 +90,16 @@
 
     <style name="MyAppbarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
         <item name="colorControlHighlight">@color/ripple_default_color</item>
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+     </style>
+
+    <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/primary_icon_color</item>
     </style>
+
+    <style name="popupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:colorBackground">@color/theme1_surface</item>
+        <item name="colorAccent">@color/theme1_primary</item>
+    </style>
+
 </resources>
