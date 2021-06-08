@@ -24,6 +24,7 @@ class VideosViewModel : ViewModel() { // TODO: Implement the ViewModel
     //    public static void setVideoItems(List<VideoItem> videoItems) {
     //        _videoItems.setValue( videoItems );
     //    }
+
     val intentSender = MutableLiveData<IntentSender>()
 
     var videosToDelete = mutableListOf<videoContent>()
