@@ -37,8 +37,7 @@ class VideosFragment : Fragment(), CoroutineScope {
     private lateinit var binding: VideosFragmentBinding
     private lateinit var adapter: VideosAdapter
     private lateinit var sharedPreferences: SharedPreferences
-    private val mViewModel: VideosViewModel by lazy {ViewModelProvider(this).get(VideosViewModel::class.java)}
-
+    private val mViewModel: VideosViewModel by lazy { ViewModelProvider(this).get(VideosViewModel::class.java) }
 
 
     override fun onCreateView(
@@ -56,7 +55,7 @@ class VideosFragment : Fragment(), CoroutineScope {
 
         setUpObservers()
         sharedPreferences =
-            activity?.getSharedPreferences(Constants.VIDEO_SORT_ORDER_Pref, Context.MODE_PRIVATE)!!
+            activity?.getSharedPreferences(Constants.VIDEO_SORT_ORDER_PREF, Context.MODE_PRIVATE)!!
 
         setUpToolbarMenu()
 
@@ -239,58 +238,88 @@ class VideosFragment : Fragment(), CoroutineScope {
         binding.toolbarVideosFragment.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.sort_by_newest_date_first_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(
                         Constants.SORT_ORDER,
                         SortOrder.NEWEST_DATE_FIRST.order
                     )
-                    MainActivityViewModel.videos.value?.sortByDescending { it.date_added }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    //binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortByDescending { it.date_added }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
                 R.id.sort_by_oldest_date_first_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(
                         Constants.SORT_ORDER,
                         SortOrder.OLDEST_DATE_FIRST.order
                     )
-                    MainActivityViewModel.videos.value?.sortBy { it.date_added }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    // binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortBy { it.date_added }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
                 R.id.sort_by_largest_first_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.LARGEST_FIRST.order)
-                    MainActivityViewModel.videos.value?.sortByDescending { it.videoSize }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    // binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortByDescending { it.videoSize }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
                 R.id.sort_by_smallest_first_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.SMALLEST_FIRST.order)
-                    MainActivityViewModel.videos.value?.sortBy { it.videoSize }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    //binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortBy { it.videoSize }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
                 R.id.sort_by_name_a_to_z_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.NAME_A_TO_Z.order)
-                    MainActivityViewModel.videos.value?.sortBy { it.videoName }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    //binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortBy { it.videoName }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
                 R.id.sort_by_name_z_to_a_menu_item -> {
-                    adapter.submitList(listOf<videoContent>())
                     it.isChecked = true
                     sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.NAME_Z_TO_A.order)
-                    MainActivityViewModel.videos.value?.sortByDescending { it.videoName }
-                    MainActivityViewModel.videos.value = MainActivityViewModel.videos.value
-                    // binding!!.videoItemsRecyclerView.smoothScrollToPosition(0)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.value?.sortByDescending { it.videoName }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.videos.postValue(MainActivityViewModel.videos.value)
+                        }
+                    }
                 }
             }
 
@@ -303,17 +332,20 @@ class VideosFragment : Fragment(), CoroutineScope {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onResume() {
         super.onResume()
         if (MainActivityViewModel.isReadPermissionGranted.value!!) {
             if (MainActivityViewModel.videos.value?.size == 0)
                 updateVideoDatabase()
             else
-                adapter.submitList(MainActivityViewModel.videos.value?.toList())
+                adapter.submitList(
+                    MainActivityViewModel.videos.value?.sort(
+                        sharedPreferences.getInt(
+                            Constants.SORT_ORDER,
+                            SortOrder.NEWEST_DATE_FIRST.order
+                        )
+                    )
+                )
         }
     }
 

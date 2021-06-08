@@ -2,6 +2,7 @@ package com.mee.ui.main.folders.foldersVideos
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +22,8 @@ import com.mee.ui.main.videos.VideosAdapter
 import com.mee.player.PlayerActivity
 import java.io.File
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
+import com.mee.player.R
+import com.mee.utils.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -40,22 +43,18 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
     lateinit var job: Job
-
     lateinit var mContext: Context
 
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentFoldersVideosBinding
-
+    lateinit var adapter: VideosAdapter
+    val args: FoldersVideosFragmentArgs by navArgs()
+    private var param1: String? = null
+    private var param2: String? = null
+    private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: FoldersVideosViewModel by lazy {
         ViewModelProvider(this).get(FoldersVideosViewModel::class.java)
     }
-
-    lateinit var adapter: VideosAdapter
-
-    val args: FoldersVideosFragmentArgs by navArgs()
-
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,26 +68,24 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedPreferences =
+            activity?.getSharedPreferences(Constants.VIDEO_SORT_ORDER_PREF, Context.MODE_PRIVATE)!!
         binding = FragmentFoldersVideosBinding.inflate(inflater, container, false)
-
         job = Job()
-        //viewModel = ViewModelProvider(this).get(FoldersVideosViewModel::class.java)
-
-        // viewModel.folder = MainActivityViewModel.folders.value?.get(args.position)!!
-
         adapter = VideosAdapter(getVideoItemClickListener(), getMoreImageViewClickListener())
         binding.foldersVideoItemsRecyclerView.adapter = adapter
-        adapter.submitList(MainActivityViewModel.folders.value?.get(args.position)?.videoFiles)
-
+        adapter.submitList(
+            MainActivityViewModel.folders.value?.get(args.position)?.videoFiles?.sort(
+                sharedPreferences.getInt(Constants.SORT_ORDER, SortOrder.NEWEST_DATE_FIRST.order)
+            )
+        )
         binding.toolbarFoldersVideosFragment.title =
             MainActivityViewModel.folders.value?.get(args.position)?.folderName
         binding.toolbarFoldersVideosFragment.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
+        setUpToolbarMenu()
         setUpObservers()
-
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -163,18 +160,17 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     fun deleteVideoItem(videos: MutableList<videoContent>) {
 
-        for(video in videos) {
+        for (video in videos) {
             if (!fileExists(mContext, video.assetFileStringUri.toUri())) {
                 videos.remove(video)
                 MainActivityViewModel.folders.value?.get(args.position)?.videoFiles?.remove(video)
             }
         }
 
-        if(videos.isEmpty()) {
+        if (videos.isEmpty()) {
             submitNewFiles()
             return
         }
-
 
 
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -261,9 +257,108 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
     }
 
+    fun setUpToolbarMenu() {
+        val sortOrder =
+            sharedPreferences.getInt(Constants.SORT_ORDER, SortOrder.NEWEST_DATE_FIRST.order)
+        binding.toolbarFoldersVideosFragment.menu!!.updateCheckedStatus(sortOrder)
+        val videoFiles = MainActivityViewModel.folders.value?.get(args.position)!!.videoFiles
+
+        binding.toolbarFoldersVideosFragment.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.sort_by_newest_date_first_menu_item -> {
+                    it.isChecked = true
+                    sharedPreferences.saveInt(
+                        Constants.SORT_ORDER,
+                        SortOrder.NEWEST_DATE_FIRST.order
+                    )
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortByDescending { it.date_added }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+                R.id.sort_by_oldest_date_first_menu_item -> {
+                    adapter.submitList(listOf<videoContent>())
+                    it.isChecked = true
+                    sharedPreferences.saveInt(
+                        Constants.SORT_ORDER,
+                        SortOrder.OLDEST_DATE_FIRST.order
+                    )
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortBy { it.date_added }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+                R.id.sort_by_largest_first_menu_item -> {
+                    it.isChecked = true
+                    sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.LARGEST_FIRST.order)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortByDescending { it.videoSize }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+                R.id.sort_by_smallest_first_menu_item -> {
+                    it.isChecked = true
+                    sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.SMALLEST_FIRST.order)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortBy { it.videoSize }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+                R.id.sort_by_name_a_to_z_menu_item -> {
+                    it.isChecked = true
+                    sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.NAME_A_TO_Z.order)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortBy { it.videoName }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+                R.id.sort_by_name_z_to_a_menu_item -> {
+                    it.isChecked = true
+                    sharedPreferences.saveInt(Constants.SORT_ORDER, SortOrder.NAME_Z_TO_A.order)
+                    launch {
+                        withContext(Dispatchers.Default) {
+                            videoFiles.sortByDescending { it.videoName }
+                            adapter.submitList(listOf<videoContent>())
+                        }
+                        withContext(Dispatchers.Default) {
+                            MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                        }
+                    }
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
+    }
+
     fun submitNewFiles() {
         adapter.submitList(MainActivityViewModel.folders.value?.get(args.position)?.videoFiles)
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context

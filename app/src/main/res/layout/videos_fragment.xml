@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:logo="@drawable/ic_baseline_play_circle"
-                app:menu="@menu/video_fragment_menu"
+                app:menu="@menu/videos_menu"
                 app:popupTheme="@style/popupMenuStyle"
                 app:title="MeePlayer"
                 app:titleTextAppearance="@style/Toolbar.TitleText">
