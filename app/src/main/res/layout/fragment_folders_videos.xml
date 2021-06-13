@@ -25,7 +25,7 @@
             <!-- Toolbar is the actual app bar with text and the action items -->
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_folders_videos_fragment"
+                android:id="@+id/folders_videos_fragment_toolbar"
                 style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,6 +41,21 @@
                 app:popupTheme="@style/popupMenuStyle"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Secondary">
             </androidx.appcompat.widget.Toolbar>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/folders_videos_fragment_toolbar_multi_select"
+                style="@style/ToolbarTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_primary"
+                android:minHeight="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_baseline_clear_24"
+                app:menu="@menu/videos_multi_selected_menu"
+                app:popupTheme="@style/popupMenuStyle"
+                app:title="@string/items_selected"
+                app:titleTextAppearance="@style/MultiSelectionToolbar.TitleText.Secondary"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

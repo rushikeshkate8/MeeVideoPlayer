@@ -6,21 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.afollestad.materialdialogs.MaterialDialog
-import com.anggrayudi.storage.SimpleStorage
-import com.anggrayudi.storage.callback.StorageAccessCallback
-import com.anggrayudi.storage.file.StorageType
-import com.anggrayudi.storage.file.storageId
-import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -28,6 +20,8 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mee.player.R
 import com.mee.player.databinding.ActivityMainBinding
+import com.mee.ui.main.folders.foldersVideos.FoldersVideosFragment
+import com.mee.ui.main.videos.VideosFragment
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -226,6 +220,28 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             if (viewModel?.isBackPressed!!)
                 super.onBackPressed()
             else {
+                val fragmentList = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.fragments?.reversed()
+                if (fragmentList != null) {
+                    for(f in fragmentList) {
+                        when(f) {
+                            is VideosFragment -> {
+                                val handled = f.onBackPressed()
+                                if (handled) return
+                                else break
+                            }
+//                            is FoldersVideosFragment -> {
+//                                val handled = f.onBackPressed()
+//                                if(handled) return
+//                                else break
+//                            }
+                        }
+//                        if(f is VideosFragment || f is FoldersVideosFragment) {
+//                            val handled = f.onBackPressed()
+//                            if(handled) return
+//                            else break
+//                        }
+                    }
+                }
                 Toast.makeText(this, R.string.tap_again_to_exit_app, Toast.LENGTH_SHORT).show()
                 viewModel!!.isBackPressed = true
                 Handler(Looper.getMainLooper()).postDelayed(

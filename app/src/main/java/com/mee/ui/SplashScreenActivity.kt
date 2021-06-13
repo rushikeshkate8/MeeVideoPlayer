@@ -10,6 +10,7 @@ import com.mee.player.R
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        R.layout.folders_fragment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         Handler(Looper.getMainLooper())

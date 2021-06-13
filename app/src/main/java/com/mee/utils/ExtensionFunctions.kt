@@ -5,6 +5,7 @@ import android.view.Menu
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.mee.player.R
 import com.mee.ui.main.MainActivityViewModel
+import com.mee.ui.main.mainUtils.VideoItem
 
 fun SharedPreferences.saveInt(key: String, value: Int) {
     val edit: SharedPreferences.Editor = edit()
@@ -32,6 +33,30 @@ fun MutableList<videoContent>.sort(order: Int): MutableList<videoContent> {
         }
         SortOrder.NAME_Z_TO_A.order -> {
             sortByDescending { it.videoName }
+        }
+    }
+    return this
+}
+
+fun MutableList<VideoItem>.sortVideoItems(order: Int): MutableList<VideoItem> {
+    when(order) {
+        SortOrder.NEWEST_DATE_FIRST.order -> {
+            sortByDescending { it.video.date_added }
+        }
+        SortOrder.OLDEST_DATE_FIRST.order -> {
+            sortBy { it.video.date_added }
+        }
+        SortOrder.LARGEST_FIRST.order -> {
+            sortByDescending { it.video.videoSize }
+        }
+        SortOrder.SMALLEST_FIRST.order -> {
+            sortBy { it.video.videoSize }
+        }
+        SortOrder.NAME_A_TO_Z.order -> {
+            sortBy { it.video.videoName }
+        }
+        SortOrder.NAME_Z_TO_A.order -> {
+            sortByDescending { it.video.videoName }
         }
     }
     return this

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
 import com.CodeBoy.MediaFacer.mediaHolders.videoFolderContent
 import com.mee.models.FolderVideoPair
+import com.mee.ui.main.mainUtils.VideoItem
 
 class MainActivityViewModel : ViewModel() {
     companion object {
@@ -15,6 +16,8 @@ class MainActivityViewModel : ViewModel() {
         var isReadPermissionGranted = MutableLiveData(false)
 
         val videos = MutableLiveData<MutableList<videoContent>>(mutableListOf())
+        val videoItems = MutableLiveData<MutableList<VideoItem>>(mutableListOf())
+
         val isVideosUpdated = MutableLiveData(false)
 
         val folders = MutableLiveData<MutableList<videoFolderContent>>(mutableListOf())

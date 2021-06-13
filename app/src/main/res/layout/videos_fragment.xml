@@ -39,16 +39,22 @@
                 app:menu="@menu/videos_menu"
                 app:popupTheme="@style/popupMenuStyle"
                 app:title="MeePlayer"
-                app:titleTextAppearance="@style/Toolbar.TitleText">
+                app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
-                <!--                <ImageButton-->
-                <!--                    android:id="@+id/video_fragment_menu_item"-->
-                <!--                    android:layout_width="40dp"-->
-                <!--                    android:layout_height="40dp"-->
-                <!--                    android:layout_gravity="end"-->
-                <!--                    android:background="@drawable/ripple_circular"-->
-                <!--                    app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />-->
-            </androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/video_fragment_toolbar_multi_select"
+                style="@style/ToolbarTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_primary"
+                android:minHeight="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_baseline_clear_24"
+                app:menu="@menu/videos_multi_selected_menu"
+                app:popupTheme="@style/popupMenuStyle"
+                app:title="@string/items_selected"
+                app:titleTextAppearance="@style/MultiSelectionToolbar.TitleText.Secondary"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -70,6 +76,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_videos_fragment" />
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -13,8 +13,8 @@
     <color name="color_primium">@color/violet</color>
     <color name="primary_icon_color">@color/slate_gray</color>
     <color name="video_duratin_background_color">#99000000</color>
-    <color name="ripple_default_color">#207E7E7E</color>
-<!--    <color name="ripple_default_color">#407E7E7E</color>-->
+    <color name="selection_activated">#200D6DDB</color>
+    <color name="ripple_default_color">#407E7E7E</color>
 
     <color name="exo_bottom_bar_background">#88000000</color>
     <color name="exo_black_opacity_30" tools:keep="@color/exo_black_opacity_30">#00000000</color>

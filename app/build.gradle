@@ -63,12 +63,16 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 
     // Kotlin Libraries
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
 
+    
     // Do not touch it unless required
     def exoplayerVersion = '2.14.0'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
@@ -109,7 +113,26 @@ dependencies {
     implementation 'com.github.CodeBoy722:MediaFacer:1.0.3'
 
 //    For managing file operations
-    implementation "com.anggrayudi:storage:0.6.0"
+    //implementation "com.anggrayudi:storage:0.6.0"
 
     implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'
+
+    //Flexible Adapter
+    implementation 'eu.davidea:flexible-adapter:5.1.0'
+    implementation 'eu.davidea:flexible-adapter-ui:1.0.0'
+    implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b3'
+    // From 1.0.0-b3, library is compiled with data binding v2
+    implementation 'eu.davidea:flexible-adapter-databinding:1.0.0'
+
+    //Fast Adapter
+    implementation "com.mikepenz:fastadapter:${latestFastAdapterRelease}"
+    implementation "com.mikepenz:fastadapter-extensions-binding:${latestFastAdapterRelease}" // view binding helpers
+    implementation "com.mikepenz:fastadapter-extensions-diff:${latestFastAdapterRelease}" // diff util helpers
+    implementation "com.mikepenz:fastadapter-extensions-drag:${latestFastAdapterRelease}" // drag support
+    implementation "com.mikepenz:fastadapter-extensions-paged:${latestFastAdapterRelease}" // paging support
+    implementation "com.mikepenz:fastadapter-extensions-scroll:${latestFastAdapterRelease}" // scroll helpers
+    implementation "com.mikepenz:fastadapter-extensions-swipe:${latestFastAdapterRelease}" // swipe support
+    implementation "com.mikepenz:fastadapter-extensions-ui:${latestFastAdapterRelease}" // pre-defined ui components
+    implementation "com.mikepenz:fastadapter-extensions-utils:${latestFastAdapterRelease}" // needs the `expandable`, `drag` and `scroll` extension.
+
 }

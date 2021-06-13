@@ -125,9 +125,11 @@ class FoldersFragment : Fragment(), CoroutineScope {
 
     override fun onStart() {
         super.onStart()
-        if (MainActivityViewModel.folders.value!!.size == 0)
-            updateFoldersDatabase()
-        else
+//        if (MainActivityViewModel.folders.value!!.size == 0)
+       if(MainActivityViewModel.folders.value?.isEmpty()!!) {
+           updateFoldersDatabase()
+       }
+       else
             adapter.submitList(MainActivityViewModel.folders.value)
     }
 
