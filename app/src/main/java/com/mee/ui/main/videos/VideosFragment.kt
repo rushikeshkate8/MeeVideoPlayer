@@ -8,12 +8,9 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Html
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
@@ -25,11 +22,9 @@ import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.widget.RecyclerView
 import com.CodeBoy.MediaFacer.MediaFacer
 import com.CodeBoy.MediaFacer.VideoGet
 import com.CodeBoy.MediaFacer.mediaHolders.videoContent
-import com.bumptech.glide.request.RequestCoordinator
 import com.mee.models.FolderVideoPair
 import com.mee.player.PlayerActivity
 import com.mee.player.R
@@ -45,13 +40,8 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import com.mikepenz.fastadapter.dsl.genericFastAdapter
 import com.mikepenz.fastadapter.select.SelectExtension
 import com.mikepenz.fastadapter.select.getSelectExtension
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.SelectableAdapter
-import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.coroutines.*
 import java.io.File
 import kotlin.coroutines.CoroutineContext
@@ -63,7 +53,6 @@ class VideosFragment : Fragment(), CoroutineScope {
         get() = Dispatchers.Main + job
     private lateinit var job: Job
     private lateinit var mContext: Context
-    lateinit var flexibleAdapter: FlexibleAdapter<IFlexible<*>?>
     lateinit var mTracker: SelectionTracker<Long>
     private lateinit var binding: VideosFragmentBinding
     private lateinit var adapter: VideosAdapter
@@ -90,7 +79,6 @@ class VideosFragment : Fragment(), CoroutineScope {
 
 //        adapter.tracker = mTracker
 
-        setUpObservers()
         sharedPreferences =
             activity?.getSharedPreferences(Constants.VIDEO_SORT_ORDER_PREF, Context.MODE_PRIVATE)!!
 
@@ -120,9 +108,10 @@ class VideosFragment : Fragment(), CoroutineScope {
         super.onActivityCreated(savedInstanceState)
         selectionSetUp()
 //        if (MainActivityViewModel.videoItems.value?.size == 0)
-        if (MainActivityViewModel.videoItems.value?.isEmpty()!!) {
-            updateVideoDatabase()
-        } else {
+//        if (MainActivityViewModel.videoItems.value?.isEmpty()!!) {
+//            updateVideoDatabase()
+//        } else {
+        if (!MainActivityViewModel.videoItems.value?.isEmpty()!!) {
             MainActivityViewModel.videoItems.value!!.map {
                 it.moreImageOnClickListener = getMoreImageViewClickListener()
             }
@@ -131,8 +120,11 @@ class VideosFragment : Fragment(), CoroutineScope {
                     sharedPreferences.getInt(
                         Constants.SORT_ORDER,
                         SortOrder.NEWEST_DATE_FIRST.order
-                    ))
+                    )
+                )
         }
+        setUpObservers()
+//        }
     }
 
     private fun getVideoItemClickListener(): OnClickListeners.OnClickListener {
@@ -220,7 +212,7 @@ class VideosFragment : Fragment(), CoroutineScope {
         }
         MainActivityViewModel.videoItems.observe(viewLifecycleOwner, {
             itemAdapter.clear()
-            itemAdapter.add(it!!.toList())
+            itemAdapter.add(it)
         })
         mViewModel.intentSender.observe(viewLifecycleOwner, {
             if (it != null) {
@@ -228,29 +220,40 @@ class VideosFragment : Fragment(), CoroutineScope {
                 mViewModel.intentSender.value = null
             }
         })
+        MainActivityViewModel.isReadPermissionGranted.observe(viewLifecycleOwner, {
+            if (it && MainActivityViewModel.videoItems.value?.isEmpty() == true)
+                updateVideoDatabase()
+        })
     }
 
     fun updateVideoDatabase() {
         launch {
-            MainActivityViewModel.videos.value = async(Dispatchers.IO) {
-                MediaFacer
-                    .withVideoContex(activity)
-                    .getAllVideoContent(VideoGet.externalContentUri)
-            }.await().sort(
-                sharedPreferences.getInt(
-                    Constants.SORT_ORDER,
-                    SortOrder.NEWEST_DATE_FIRST.order
+            withContext(Dispatchers.IO) {
+                MainActivityViewModel.videos.postValue(
+                    async(Dispatchers.IO) {
+                    MediaFacer
+                        .withVideoContex(activity)
+                        .getAllVideoContent(VideoGet.externalContentUri)}
+                        .await()?.sort(
+                            sharedPreferences.getInt(
+                                Constants.SORT_ORDER,
+                                SortOrder.NEWEST_DATE_FIRST.order
+                            )
+                        )
                 )
-            )
-        }.invokeOnCompletion {
-            MainActivityViewModel.videoItems.value?.clear()
-            MainActivityViewModel.videoItems.value =
-                MainActivityViewModel.videos.value?.map {
-                    VideoItem(
-                        it,
-                        getMoreImageViewClickListener()
-                    )
-                }?.toMutableList()
+            }
+
+            withContext(Dispatchers.Default) {
+                MainActivityViewModel.videoItems.value?.clear()
+                MainActivityViewModel.videoItems.postValue(
+                    MainActivityViewModel.videos.value?.map {
+                        VideoItem(
+                            it,
+                            getMoreImageViewClickListener()
+                        )
+                    }?.toMutableList()
+                )
+            }
 
         }
     }

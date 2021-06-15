@@ -449,7 +449,7 @@ public class PlayerActivity extends Activity {
             }
         });
 
-        UtilsFlavor.onAppLaunch(this);
+        //UtilsFlavor.onAppLaunch(this);
     }
 
     @Override

@@ -53,8 +53,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         setUpBottomNavigationBar()
 
-        Toast.makeText(this, "Developed by Rushikesh Kate", Toast.LENGTH_LONG).show()
-
         //setUpObservers()
     }
 

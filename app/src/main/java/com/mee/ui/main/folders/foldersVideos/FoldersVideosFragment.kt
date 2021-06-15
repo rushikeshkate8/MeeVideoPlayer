@@ -374,7 +374,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
                 }
             }
             withContext(Dispatchers.Default) {
-                MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
+                //MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
                 if (viewModel.videosToDelete.size > 0)
                     viewModel.videosToDelete.clear()
             }
