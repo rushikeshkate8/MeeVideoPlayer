@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layoutDirection="ltr"></FrameLayout>
+        android:layoutDirection="ltr" />
 
     <FrameLayout
         android:id="@+id/exo_bottom_bar"
@@ -107,6 +107,7 @@
         android:layout_height="@dimen/exo_styled_progress_layout_height"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/exo_styled_progress_margin_bottom"
+        app:played_color="@color/color_primary"
         app:bar_gravity="bottom"
         app:bar_height="@dimen/exo_styled_progress_bar_height"
         app:scrubber_dragged_size="@dimen/exo_styled_progress_dragged_thumb_size"
