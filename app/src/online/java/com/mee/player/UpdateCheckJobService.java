@@ -10,7 +10,6 @@
 //import com.github.javiersantos.appupdater.objects.Update;
 //
 //import io.github.g00fy2.versioncompare.Version;
-//
 //public class UpdateCheckJobService extends JobService {
 //
 //    @Override

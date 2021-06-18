@@ -28,6 +28,8 @@
     </queries>
 
     <application
+        tools:replace="android:allowBackup"
+        android:allowBackup="false"
         android:name="com.mee.utils.App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
