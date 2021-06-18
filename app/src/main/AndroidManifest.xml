@@ -48,7 +48,8 @@
 
         <activity
             android:name="com.mee.ui.main.MainActivity"
-            android:theme="@style/Theme.Main">
+            android:theme="@style/Theme.Main"
+            android:configChanges="orientation|screenSize">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 

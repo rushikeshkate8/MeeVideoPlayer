@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
@@ -231,9 +232,10 @@ class VideosFragment : Fragment(), CoroutineScope {
             withContext(Dispatchers.IO) {
                 MainActivityViewModel.videos.postValue(
                     async(Dispatchers.IO) {
-                    MediaFacer
-                        .withVideoContex(activity)
-                        .getAllVideoContent(VideoGet.externalContentUri)}
+                        MediaFacer
+                            .withVideoContex(activity)
+                            .getAllVideoContent(VideoGet.externalContentUri)
+                    }
                         .await()?.sort(
                             sharedPreferences.getInt(
                                 Constants.SORT_ORDER,
@@ -564,11 +566,25 @@ class VideosFragment : Fragment(), CoroutineScope {
                     ActivityCompat.startActivity(mContext, intent, null)
 
                     selectExtension.deselect()
+                    selectionStoped()
 
                     return@setOnMenuItemClickListener true
                 }
                 else -> return@setOnMenuItemClickListener true
             }
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Landscape
+            if (selectExtension.selectedItems.size > 0)
+                selectionStarted()
+        } else {
+            // Portrait
+            if (selectExtension.selectedItems.size > 0)
+                selectionStarted()
         }
     }
 
@@ -726,6 +742,10 @@ class VideosFragment : Fragment(), CoroutineScope {
         systemUiVisibilityFlags =
             systemUiVisibilityFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         decorView.systemUiVisibility = systemUiVisibilityFlags
+        binding.videoFragmentToolbarMultiSelect.title = String.format(
+            resources.getString(R.string.items_selected),
+            selectExtension.selectedItems.size.toString()
+        )
     }
 
     fun selectionStoped() {

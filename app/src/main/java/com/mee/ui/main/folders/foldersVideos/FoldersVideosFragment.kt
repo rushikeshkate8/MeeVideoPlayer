@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
@@ -92,14 +93,14 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
                 if (selectExtension.selectedItems.size > 0) {
                     selectExtension.deselect()
                     selectionStoped()
-                }
-                else {
+                } else {
                     //isEnabled = true
                     findNavController().navigateUp()
                 }
 
 
-        }})
+            }
+        })
     }
 
     override fun onCreateView(
@@ -212,7 +213,12 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         MainActivityViewModel.folders.observe(viewLifecycleOwner, {
             //adapter.submitList(it.get(args.position).videoFiles.toList())
             itemAdapter.clear()
-            itemAdapter.add(it.get(args.position).videoFiles.map { VideoItem(it, getMoreImageViewClickListener()) })
+            itemAdapter.add(it.get(args.position).videoFiles.map {
+                VideoItem(
+                    it,
+                    getMoreImageViewClickListener()
+                )
+            })
         })
         viewModel.intentSender.observe(viewLifecycleOwner, {
             if (it != null) {
@@ -262,7 +268,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
 
         when (deviceVersionCode) {
             in 21..29 -> {
-                showDeleteAlertDialog(videoItems.size)
+                showDeleteAlertDialog(videoItems.size, videos)
             }
             else -> viewModel.deleteMedia(videos, mContext)
         }
@@ -274,7 +280,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         //}
     }
 
-    fun showDeleteAlertDialog(count: Int) {
+    fun showDeleteAlertDialog(count: Int, videos: List<videoContent>) {
         val title: String
         val message: String
         if (count == 1) {
@@ -286,19 +292,29 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         }
 
         val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
-            .setPositiveButton(R.string.delete, { dialog, which ->
-                viewModel.deleteMedia(viewModel.videosToDelete, mContext)
-                deleteSync()
-            })
+            .setPositiveButton(R.string.delete) { dialog, which ->
+                launch {
+                    withContext(Dispatchers.Main) {
+                        viewModel.deleteMedia(videos, mContext)
+                    }
+                    withContext(Dispatchers.Main) {
+                        deleteSync()
+                    }
+                }
+
+            }
             .setNegativeButton(R.string.cancel, { dialog, which ->
                 selectExtension.deselect()
             })
             .setMessage(message)
-            .setOnDismissListener { selectExtension.deselect()
+            .setOnDismissListener {
+                selectExtension.deselect()
                 selectionStoped()
             }
-            .setOnCancelListener { selectExtension.deselect()
-                selectionStoped() }
+            .setOnCancelListener {
+                selectExtension.deselect()
+                selectionStoped()
+            }
         val alertDialog = builder.create()
         alertDialog.setTitle(
             Html.fromHtml(
@@ -344,6 +360,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         //MainActivityViewModel.needVideoDatabaseUpdate.value = true
         val deletedItems = selectExtension.selectedItems.toList()
         selectExtension.deleteAllSelectedItems()
+        selectionStoped()
 
 
         launch {
@@ -429,7 +446,7 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
                     launch {
                         withContext(Dispatchers.Default) {
                             videoFiles.sortByDescending { it.videoSize }
-                           // adapter.submitList(listOf<videoContent>())
+                            // adapter.submitList(listOf<videoContent>())
                         }
                         withContext(Dispatchers.Default) {
                             MainActivityViewModel.folders.postValue(MainActivityViewModel.folders.value)
@@ -514,11 +531,25 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
                     ActivityCompat.startActivity(requireContext(), intent, null)
 
                     selectExtension.deselect()
+                    selectionStoped()
 
                     return@setOnMenuItemClickListener true
                 }
                 else -> return@setOnMenuItemClickListener true
             }
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Landscape
+            if (selectExtension.selectedItems.size > 0)
+                selectionStarted()
+        } else {
+            // Portrait
+            if (selectExtension.selectedItems.size > 0)
+                selectionStarted()
         }
     }
 
@@ -555,6 +586,10 @@ class FoldersVideosFragment : Fragment(), CoroutineScope {
         systemUiVisibilityFlags =
             systemUiVisibilityFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         decorView.systemUiVisibility = systemUiVisibilityFlags
+        binding.foldersVideosFragmentToolbarMultiSelect.title = String.format(
+            resources.getString(R.string.items_selected),
+            selectExtension.selectedItems.size.toString()
+        )
     }
 
     fun selectionStoped() {

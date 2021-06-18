@@ -41,7 +41,7 @@ class FoldersVideosViewModel: ViewModel() {
             //activity.startIntentSenderForResult(intentSender, REQUEST_CODE_DELETE, null, 0, 0, 0, null)
         } else {
             viewModelScope.launch {
-                withContext(Dispatchers.Default) {
+                withContext(Dispatchers.IO) {
                     for (item in videos) {
                         FileOperations.deleteMedia(context, item)
                     }
