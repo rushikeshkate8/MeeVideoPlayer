@@ -25,27 +25,37 @@
             <!-- Toolbar is the actual app bar with text and the action items -->
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_folders_videos_fragment"
+                android:id="@+id/folders_videos_fragment_toolbar"
                 style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_background"
                 android:minHeight="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
+                app:menu="@menu/videos_menu"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:popupTheme="@style/popupMenuStyle"
                 app:titleTextAppearance="@style/Toolbar.TitleText.Secondary">
-
-<!--                <ImageButton-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_gravity="end"-->
-<!--                    android:background="@drawable/ripple_circular"-->
-<!--                    app:srcCompat="@drawable/video_item_ic_baseline_more_vert_24" />-->
             </androidx.appcompat.widget.Toolbar>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/folders_videos_fragment_toolbar_multi_select"
+                style="@style/ToolbarTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_primary"
+                android:minHeight="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_baseline_clear_24"
+                app:menu="@menu/videos_multi_selected_menu"
+                app:popupTheme="@style/popupMenuStyle"
+                app:title="@string/items_selected"
+                app:titleTextAppearance="@style/MultiSelectionToolbar.TitleText.Secondary"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,8 +70,8 @@
             android:layout_height="match_parent"
             app:fastScrollThumbColor="@color/color_primary"
             app:fastScrollThumbInactiveColor="@color/primary_icon_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
